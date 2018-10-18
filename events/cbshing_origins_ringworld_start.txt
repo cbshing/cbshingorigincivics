@@ -1,0 +1,98 @@
+namespace = cbshing_origins_ringworld_start
+# file modifies start planets to be a Ringworld Start
+# by cbshing
+
+# Triggers when the game starts
+### Change homeworld to Ringworld if have Ringworld Civics on Game Start
+country_event = {
+	id = cbshing_origins_ringworld_start.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { is_cbshing_ringworld_country = yes }
+
+	immediate = {
+		random_owned_planet ={
+			limit = { is_capital = yes }
+			save_event_target_as = ringworld_capital_planet
+			owner.capital_scope.solar_system = {
+				spawn_megastructure = { 
+					type = ring_world_2_intermediate 
+					owner = FROMFROM
+					location = star
+				}				
+			}
+		}
+		every_owned_megastructure  = {
+			limit = { is_megastructure_type = ring_world_2 }
+			upgrade_megastructure_to = ring_world_3_intermediate 
+			finish_upgrade = yes
+		}
+		random_planet_within_border ={
+			limit = { is_planet_class = pc_ringworld_habitable }
+			save_event_target_as = ringworld_capital
+			reset_start_buildings_and_blockers_ringworld = yes
+			set_owner = FROM
+			every_tile = {
+				limit = { has_building = yes has_pop = no has_blocker = no}
+				create_pop = { 
+					species = owner_species
+					ethos = random
+				}
+			}	
+			#set_name = { owner.capital }
+			set_capital = yes
+		}
+		random_owned_pop = {
+			limit = { is_exact_same_species = owner_species }
+			species = { 
+				set_species_homeworld = event_target:ringworld_capital
+				this = { save_event_target_as = new_ringworld_species }
+			}
+		}
+		every_owned_pop = {
+			limit = { is_exact_same_species = owner_species }
+			#changes_species = event_target:new_ringworld_species
+			modify_species = {
+				species = this
+				ideal_planet_class = pc_ringworld_habitable
+				base = none # makes this replace parent species
+			}
+		}
+		# Nuke other colonies gained from advanced empire, etc
+		every_owned_planet = {
+			limit = { is_capital = no }
+			every_tile = { 
+				kill_pop = yes 
+				remove_building = yes
+			}
+		}
+		change_dominant_species = { species = last_created change_all = yes }
+		
+		# Add tileblockers to every ringworld not capital
+		# Kill any planet not ringworld
+		capital_scope.solar_system = {
+			every_system_planet = { 
+				limit = { 
+					is_capital = no 
+					is_planet_class = pc_ringworld_habitable
+				}
+				reset_blockers_ringworld =  yes
+			}
+			every_system_planet = { 
+				limit = { 
+					NOR = { 
+						is_star = yes
+						is_planet_class = pc_ringworld_habitable
+						is_planet_class = pc_ringworld_habitable_damaged 
+						is_planet_class = pc_ringworld_tech 
+						is_planet_class = pc_ringworld_tech_damaged  
+						is_planet_class = pc_ringworld_seam  
+						is_planet_class = pc_ringworld_seam_damaged  
+					}
+				}
+				remove_planet = yes 
+			}
+		}
+	}
+}

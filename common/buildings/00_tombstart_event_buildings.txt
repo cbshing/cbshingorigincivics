@@ -1,0 +1,345 @@
+@feupkeep = 4
+@feproduction = 12
+
+# Vault Complex
+# Unique building vault for tombstart mod 
+# Adds +3 science and increases research speed (possibly will change)
+building_tombstart_vault = {
+	is_listed = no
+	icon = "building_primitive_farm"
+	
+	cost = {
+	}
+
+	required_resources = {
+	}
+	
+	produced_resources = {
+		physics_research = 3
+		society_research = 3
+		engineering_research = 3
+	}
+
+	planet_modifier = {
+	#	pop_environment_tolerance = 0.1
+	}
+	
+	country_modifier = {
+		all_technology_research_speed = 0.03
+	}
+
+	upgrades = {
+	}
+	
+	ai_replace = no
+	event_building = yes
+
+	ai_allow = {
+		# If planet only has slaves/robots, keep it to mining and farming...
+		is_slave_tile_or_planet = no
+	}
+}
+
+building_tombstart_vault_a = {
+	is_listed = no
+	icon = "building_primitive_farm"
+	
+	cost = {
+	}
+
+	required_resources = {
+	}
+	
+	produced_resources = {
+		physics_research = 3
+		society_research = 3
+		engineering_research = 3
+	}
+
+	planet_modifier = {
+	#	pop_environment_tolerance = 0.1
+	}
+	
+	country_modifier = {
+		all_technology_research_speed = 0.03
+	}
+
+	upgrades = {
+	}
+	
+	ai_replace = no
+	event_building = yes
+
+	ai_allow = {
+		# If planet only has slaves/robots, keep it to mining and farming...
+		is_slave_tile_or_planet = no
+	}
+}
+
+building_tombstart_vault_b = {
+	is_listed = no
+	icon = "building_primitive_farm"
+	
+	cost = {
+	}
+
+	required_resources = {
+	}
+	
+	produced_resources = {
+		physics_research = 3
+		society_research = 3
+		engineering_research = 3
+	}
+
+	planet_modifier = {
+	#	pop_environment_tolerance = 0.1
+	}
+	
+	country_modifier = {
+		all_technology_research_speed = 0.03
+	}
+
+	upgrades = {
+	}
+	
+	ai_replace = no
+	event_building = yes
+
+	ai_allow = {
+		# If planet only has slaves/robots, keep it to mining and farming...
+		is_slave_tile_or_planet = no
+	}
+}
+
+building_tombstart_vault_c = {
+	is_listed = no
+	icon = "building_primitive_farm"
+	
+	cost = {
+	}
+
+	required_resources = {
+	}
+	
+	produced_resources = {
+		physics_research = 3
+		society_research = 3
+		engineering_research = 3
+	}
+
+	planet_modifier = {
+	#	pop_environment_tolerance = 0.1
+	}
+	
+	country_modifier = {
+		all_technology_research_speed = 0.03
+	}
+
+	upgrades = {
+	}
+	
+	ai_replace = no
+	event_building = yes
+
+	ai_allow = {
+		# If planet only has slaves/robots, keep it to mining and farming...
+		is_slave_tile_or_planet = no
+	}
+}
+
+building_tombstart_vault_d = {
+	is_listed = no
+	icon = "building_primitive_farm"
+	
+	cost = {
+	}
+
+	required_resources = {
+	}
+	
+	produced_resources = {
+		physics_research = 3
+		society_research = 3
+		engineering_research = 3
+	}
+
+	planet_modifier = {
+	#	pop_environment_tolerance = 0.1
+	}
+	
+	country_modifier = {
+		all_technology_research_speed = 0.03
+	}
+
+	upgrades = {
+	}
+	
+	ai_replace = no
+	event_building = yes
+
+	ai_allow = {
+		# If planet only has slaves/robots, keep it to mining and farming...
+		is_slave_tile_or_planet = no
+	}
+}
+
+building_tombstart_vault_e = {
+	is_listed = no
+	icon = "building_primitive_farm"
+	
+	cost = {
+	}
+
+	required_resources = {
+	}
+	
+	produced_resources = {
+		physics_research = 3
+		society_research = 3
+		engineering_research = 3
+	}
+
+	planet_modifier = {
+	#	pop_environment_tolerance = 0.1
+	}
+	
+	country_modifier = {
+		all_technology_research_speed = 0.03
+	}
+
+	upgrades = {
+	}
+	
+	ai_replace = no
+	event_building = yes
+
+	ai_allow = {
+		# If planet only has slaves/robots, keep it to mining and farming...
+		is_slave_tile_or_planet = no
+	}
+}
+
+building_tombstart_vault_sd_terminator = {
+	is_listed = no
+	icon = "building_primitive_farm"
+	
+	cost = {
+	}
+
+	required_resources = {
+	}
+	
+	destroy_if = {
+		owner = {
+			NOT = { 
+				has_authority = auth_machine_intelligence
+				has_government = gov_machine_terminator
+			}
+		}		
+	}
+
+	produced_resources = {
+		society_research = 8
+		unity = 2
+	}
+
+	army_modifier = {
+		army_damage_mult = 0.10
+	}
+
+	planet_modifier = {
+	}
+	
+	country_modifier = {
+	}
+
+	upgrades = {
+	}
+	
+	ai_replace = no
+	event_building = yes
+
+	ai_allow = {
+		# If planet only has slaves/robots, keep it to mining and farming...
+		is_slave_tile_or_planet = no
+	}
+}
+
+building_tombstart_vault_sd_assimilator = {
+	is_listed = no
+	icon = "building_primitive_farm"
+	
+	cost = {
+	}
+
+	required_resources = {
+	}
+
+	destroy_if = {
+		owner = {
+			NOT = { 
+				has_authority = auth_machine_intelligence
+				has_government = gov_machine_assimilator
+			}
+		}		
+	}
+	
+	produced_resources = {
+		society_research = 8
+		unity = 2
+	}
+
+	planet_modifier = {
+		tile_resource_unity_mult = 0.03
+	}
+	
+	country_modifier = {
+	}
+
+	upgrades = {
+	}
+	
+	ai_replace = no
+	event_building = yes
+
+	ai_allow = {
+		# If planet only has slaves/robots, keep it to mining and farming...
+		is_slave_tile_or_planet = no
+	}
+}
+
+building_tombstart_vault_sd_machine = {
+	is_listed = no
+	icon = "building_primitive_farm"
+	
+	cost = {
+	}
+
+	required_resources = {
+	}
+	
+	produced_resources = {
+		physics_research = 3
+		society_research = 3
+		engineering_research = 3
+	}
+
+	planet_modifier = {
+	}
+	
+	country_modifier = {
+		all_technology_research_speed = 0.03
+	}
+
+	upgrades = {
+	}
+	
+	ai_replace = no
+	event_building = yes
+
+	ai_allow = {
+		# If planet only has slaves/robots, keep it to mining and farming...
+		is_slave_tile_or_planet = no
+	}
+}

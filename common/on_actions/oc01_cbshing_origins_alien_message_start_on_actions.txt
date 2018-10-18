@@ -1,0 +1,26 @@
+# Triggers when pressing begin in the intro window
+# This = country to press begin
+on_press_begin = {
+	events = {
+		cbshing_origins_alien_message_event.1
+	}
+}
+
+# Triggers event when ship enters a system
+# Scope = Ship
+# From = System
+# FromFrom = Country
+on_entering_system = {
+	events = {
+		cbshing_origins_alien_message_event.2
+	}
+}
+
+# A fleet has entered a system
+# Scope = Fleet
+# From = System
+on_entering_system_fleet = {
+	events = {
+		cbshing_origins_alien_message_event.41
+	}
+}

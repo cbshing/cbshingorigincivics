@@ -1,0 +1,12 @@
+﻿l_russian:
+
+# Tombstart Customized Tile Blockers
+# Bomb crater has cheaper cost but same flavor text
+ tb_tombstart_bomb_crater:0 "£blocker  Воронка от бомбы"
+ tb_tombstart_bomb_crater_desc:0 "Эта огромная воронка возникла при взрыве мощной водородной бомбы."
+# City Ruins has cheaper cost but same flavor text
+ tb_tombstart_city_ruins:0 "£blocker  Развалины города"
+ tb_tombstart_city_ruins_desc:0 "Некогда великий город, а ныне металлическое кладбище простирается насколько хватает глаз."
+# Radioactive Wasteland has cheaper cost but same flavor text
+ tb_tombstart_radioactive_wasteland:0 "£blocker  Радиоактивная пустошь"
+ tb_tombstart_radioactive_wasteland_desc:0 "Редкие формы жизни способны выжить в этой бесплодной радиоактивной пустыне."

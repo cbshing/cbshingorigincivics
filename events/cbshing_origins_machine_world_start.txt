@@ -1,0 +1,46 @@
+namespace = cbshing_origins_machine_world_start
+
+### Change homeworld to Machine World if have Machine World Civics on Game Start
+country_event = {
+	id = cbshing_origins_machine_world_start.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { 
+		is_cbshing_machine_world_start_country = yes 
+		host_has_dlc = "Synthetic Dawn Story Pack"
+	}
+
+	immediate = {
+		random_owned_planet = {
+			limit = { is_capital = yes }
+			change_pc = pc_machine
+			reroll_deposits = yes
+			planet_event = { id = action.68 }
+			
+			if = {
+				limit = { owner = { is_cbshing_shrink_to_size_12_machine_world_start_country = yes } }
+				every_tile = {
+					limit = { has_pop = yes }
+					kill_pop = yes
+				}
+				set_planet_size = 12
+				while = {
+					count = 8
+					random_tile = {
+						limit = {
+							#has_blocker = no 
+							#has_building = no
+							has_pop = no
+						}
+						create_pop = {
+							species = owner_main_species
+						}
+					}
+				}
+			}
+
+			origins_reset_start_buildings_and_blockers_machine_world = yes
+		}
+	}
+}

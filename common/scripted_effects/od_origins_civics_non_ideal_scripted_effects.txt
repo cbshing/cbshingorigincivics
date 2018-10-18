@@ -1,0 +1,134 @@
+# by cbshing
+#	Example:
+#
+#	example_effect = {
+#		add_energy = -100
+#	}
+#
+#
+#	In a script file:
+#
+#	effect = {
+#		example_effect = yes
+#	}
+#
+
+# Given a species, change the planet type to match their preference
+# Can copy this effect and add other planet types to it
+# Scope: Planet
+origins_change_planet_type_to_non_ideal_preference = {
+	if = {
+		limit = {
+			OR = {
+				is_planet_class = pc_arid
+				is_planet_class = pc_desert
+				is_planet_class = pc_savannah
+			}
+		}
+		random_list = {
+			18 = { change_pc = pc_continental }
+			17 = { change_pc = pc_tropical }
+			17 = { change_pc = pc_ocean }
+			16 = { change_pc = pc_arctic }
+			16 = { change_pc = pc_tundra }
+			16 = { change_pc = pc_alpine }
+		}
+	}
+	if = {
+		limit = {
+			OR = {
+				is_planet_class = pc_continental
+				is_planet_class = pc_tropical
+				is_planet_class = pc_ocean
+			}
+			NOT = { has_planet_flag = planet_earth }
+		}
+		random_list = {
+			18 = { change_pc = pc_arctic }
+			17 = { change_pc = pc_desert }
+			17 = { change_pc = pc_savannah }
+			16 = { change_pc = pc_arid }
+			16 = { change_pc = pc_tundra }
+			16 = { change_pc = pc_alpine }
+		}
+	}
+	if = {
+		limit = {
+			OR = {
+				is_planet_class = pc_arctic
+				is_planet_class = pc_tundra
+				is_planet_class = pc_alpine
+			}
+		}
+		random_list = {
+			18 = { change_pc = pc_ocean }
+			17 = { change_pc = pc_tropical }
+			17 = { change_pc = pc_continental }
+			16 = { change_pc = pc_arid }
+			16 = { change_pc = pc_desert }
+			16 = { change_pc = pc_savannah }
+		}
+	}
+	if = {
+		limit = {
+			is_planet_class = pc_continental
+			has_planet_flag = planet_earth
+		}
+		random_list = {
+			60 = { change_pc = pc_arctic }
+			15 = { change_pc = pc_desert }
+			4 = { change_pc = pc_savannah }
+			15 = { change_pc = pc_arid }
+			4 = { change_pc = pc_tundra }
+			2 = { change_pc = pc_alpine }
+		}
+	}
+	if = {
+		limit = {
+			OR = {
+				is_planet_class = pc_nuked
+			}
+		}
+		#change_pc = pc_nuked
+	}
+	if = {
+		limit = {
+			OR = {
+				is_planet_class = pc_ai
+			}
+		}
+		#change_pc = pc_ai
+	}
+	if = {
+		limit = {
+			OR = {
+				is_planet_class = pc_gaia
+			}
+		}
+		#change_pc = pc_gaia
+	}
+	if = {
+		limit = {
+			OR = {
+				is_planet_class = pc_ringworld_habitable
+			}
+		}
+		#change_pc = pc_ringworld_habitable
+	}
+	if = {
+		limit = {
+			OR = {
+				is_planet_class = pc_habitat
+			}
+		}
+		#change_pc = pc_habitat
+	}
+	if = {
+		limit = {
+			OR = {
+				is_planet_class = pc_machine
+			}
+		}
+		#change_pc = pc_machine
+	}
+}

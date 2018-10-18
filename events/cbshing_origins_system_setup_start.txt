@@ -1,0 +1,58 @@
+namespace = cbshing_origins_system_setup_start
+
+### Change home system to have special effects
+country_event = {
+	id = cbshing_origins_system_setup_start.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { 
+		is_cbshing_requires_start_system_setup_country = yes 
+	}
+
+	immediate = {
+		# Home System Setup
+		capital_scope.solar_system = {
+			if = {
+				limit = { owner = { is_cbshing_remove_all_hyperlanes_country = yes } }
+				origins_remove_all_hyperlanes_to_neighbors = yes
+			}
+			
+			if = {
+				limit = { owner = { is_cbshing_wormhole_start_country = yes } }
+				origins_spawn_natural_wormhole = yes
+			}
+			
+			if = {
+				limit = { owner = { is_cbshing_gateway_under_construction_start_country = yes } }
+				origins_spawn_gateway_under_construction = yes
+			}
+			
+			if = {
+				limit = { owner = { is_cbshing_gateway_completed_start_country = yes } }
+				origins_spawn_gateway_completed = yes
+			}
+			
+			if = {
+				limit = { owner = { is_cbshing_gateway_abandoned_start_country = yes } }
+				origins_spawn_deactivated_gateway = yes
+			}
+		}
+		
+		# Give Technology
+		if = {
+			limit = { is_cbshing_wormhole_start_country = yes }
+			origins_allow_country_to_travel_wormhole = yes
+		}
+		if = {
+			limit = { 
+				OR = {
+					is_cbshing_gateway_under_construction_start_country = yes 
+					is_cbshing_gateway_completed_start_country = yes
+				}
+			}
+			origins_allow_country_to_activate_gateway = yes
+			origins_allow_country_to_build_gateways = yes
+		}
+	}
+}

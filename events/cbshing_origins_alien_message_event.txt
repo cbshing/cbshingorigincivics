@@ -1,0 +1,789 @@
+namespace = cbshing_origins_alien_message_event
+# by cbshing
+
+@tier1influencecontact = 7
+@tier1influencecontactxenophile = 8
+@tier1influencecontactmin = 20
+@tier1influencecontactmax = 80
+
+@tier2influencecontact = 10
+@tier2influencecontactxenophile = 12
+@tier2influencecontactmin = 40
+@tier2influencecontactmax = 100
+
+@tier1materialreward = 6
+@tier1materialmin = 100
+@tier1materialmax = 500
+@tier2materialreward = 12
+@tier2materialmin = 150
+@tier2materialmax = 1000
+@tier3materialreward = 18
+@tier3materialmin = 250
+@tier3materialmax = 1500
+@tier4materialreward = 24
+@tier4materialmin = 350
+@tier4materialmax = 2000
+@tier5materialreward = 48
+@tier5materialmin = 700
+@tier5materialmax = 4000
+
+@tier1influencereward = 6
+@tier1influencemin = 40
+@tier1influencemax = 100
+@tier2influencereward = 12
+@tier2influencemin = 80
+@tier2influencemax = 175
+@tier3influencereward = 18
+@tier3influencemin = 125
+@tier3influencemax = 250
+@tier4influencereward = 24
+@tier4influencemin = 150
+@tier4influencemax = 300
+@tier5influencereward = 36
+@tier5influencemin = 250
+@tier5influencemax = 500
+@tier6influencereward = 48
+@tier6influencemin = 300
+@tier6influencemax = 600
+
+@tier1unityreward = 6
+@tier1unitymin = 100
+@tier1unitymax = 500
+@tier2unityreward = 12
+@tier2unitymin = 150
+@tier2unitymax = 1000
+@tier3unityreward = 18
+@tier3unitymin = 250
+@tier3unitymax = 1500
+@tier4unityreward = 24
+@tier4unitymin = 350
+@tier4unitymax = 2000
+@tier5unityreward = 48
+@tier5unitymin = 700
+@tier5unitymax = 4000
+
+@tier1researchreward = 6
+@tier1researchmin = 60
+@tier1researchmax = 150
+@tier2researchreward = 12
+@tier2researchmin = 90
+@tier2researchmax = 250
+@tier3researchreward = 18
+@tier3researchmin = 120
+@tier3researchmax = 350
+@tier4researchreward = 24
+@tier4researchmin = 150
+@tier4researchmax = 500
+@tier5researchreward = 48
+@tier5researchmin = 300
+@tier5researchmax = 1000
+
+# Below creates the alien message event
+country_event = {
+	id = cbshing_origins_alien_message_event.1
+	title = "cbshing_origins_alien_message_event.1.name"
+	desc = "cbshing_origins_alien_message_event.1.desc"
+	picture = GFX_evt_satellite_in_orbit
+	show_sound = event_sensor_ping
+	
+	location = ROOT
+	
+	trigger = {
+		is_alien_message_country = yes
+		is_ai = no
+	}
+	
+	is_triggered_only = yes
+	
+	immediate = { }
+	
+	option = {
+		name = cbshing_origins_alien_message_event.1.a
+		begin_event_chain = {
+			event_chain = "cbshing_alien_message_event_chain"
+			target = ROOT
+		}
+		hidden_effect = {
+			random_system = {
+				limit = {
+					is_surveyed = {
+						who = from
+						status = no
+					}
+					NOR = { 
+						has_star_flag = alien_message_origin_system 
+						has_star_flag = alien_message_hunt1_system 
+						has_star_flag = alien_message_hunt2_system 
+						has_star_flag = alien_message_hunt3_system 
+						has_star_flag = alien_message_hunt4_system 
+						has_star_flag = alien_message_hunt5_system 
+					}
+					OR = { 
+						has_star_flag = empire_home_system 
+						has_star_flag = com_sol
+						AND = {
+							has_star_flag = primitive_system
+							any_planet = {
+								exists = owner
+								owner = {
+									OR = {
+										#has_country_flag = machine_age
+										#has_country_flag = atomic_age
+										has_country_flag = early_space_age
+									}
+								}
+							}
+						}
+						AND = {
+							has_star_flag = primitive_sol
+							any_planet = {
+								exists = owner
+								owner = {
+									OR = {
+										#has_country_flag = machine_age
+										#has_country_flag = atomic_age
+										has_country_flag = early_space_age
+									}
+								}
+							}
+						}
+					}
+				}
+				save_event_target_as = alien_message_origin_system_flag
+				set_star_flag = alien_message_origin_system
+				random_system_planet = {
+					limit = { exists = owner }
+					owner = { set_country_flag = alien_message_origin_country }
+				}
+			}
+
+			set_country_flag = searching_for_alien_message_country
+			create_point_of_interest = {
+				id = cbshing_alien_message_poi.1
+				name = "cbshing_alien_message_1_poi"
+				#desc = cbshing_alien_message_1_desc
+				event_chain = cbshing_alien_message_event_chain
+				location = event_target:alien_message_origin_system_flag
+			}
+		}
+	}
+}
+
+# Scope = Ship
+# From = System
+# FromFrom = Country
+# also owner, obv
+ship_event = {
+	id = cbshing_origins_alien_message_event.2
+	title = cbshing_origins_alien_message_event.2.name
+	desc = cbshing_origins_alien_message_event.2.desc
+	
+	picture = GFX_evt_news_room
+	show_sound = event_celebration
+	location = FROM
+
+	is_triggered_only = yes
+
+	trigger = {
+		from = { has_star_flag = alien_message_origin_system }
+		owner = { 
+			has_country_flag = searching_for_alien_message_country 
+			NOT = { has_country_flag = found_alien_message_country }
+			is_alien_message_country = yes
+			is_ai = no
+		}
+	}
+
+	immediate = {
+		from = { remove_star_flag = alien_message_origin_system }
+		owner = {
+			remove_country_flag = searching_for_alien_message_country
+			set_country_flag = found_alien_message_country
+			add_event_chain_counter = { 
+				event_chain = "cbshing_alien_message_event_chain" 
+				counter = "origin_found" 
+				amount = 1 
+			}
+		}
+	}
+
+	option = {
+		name = cbshing_origins_alien_message_event.2.a
+		owner = {
+			add_monthly_resource_mult = {
+				resource = influence
+				value = @tier2influencereward
+				min = @tier2influencemin
+				max = @tier2influencemax
+			}
+			add_monthly_resource_mult = {
+				resource = unity
+				value = @tier2unityreward
+				min = @tier2unitymin
+				max = @tier2unitymax
+			}			
+			end_event_chain = "cbshing_alien_message_event_chain"
+			add_modifier = { modifier = cbshing_origins_found_alien_message_origin days = 3600 }
+		}
+	}
+}
+
+country_event = {
+	id = cbshing_origins_alien_message_event.3
+	title = cbshing_origins_alien_message_event.2.name
+	desc = cbshing_origins_alien_message_event.2.desc
+	
+	picture = GFX_evt_news_room
+	show_sound = event_celebration
+	location = FROM
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_country_flag = searching_for_alien_message_country 
+		NOT = { has_country_flag = found_alien_message_country }
+		is_alien_message_country = yes
+		is_ai = no
+	}
+
+	immediate = {
+		#from = { remove_star_flag = alien_message_origin_system }
+		remove_country_flag = searching_for_alien_message_country
+		set_country_flag = found_alien_message_country
+		add_event_chain_counter = { 
+			event_chain = "cbshing_alien_message_homeworld_chain" 
+			counter = "origin_found" 
+			amount = 1 
+		}
+	}
+
+	option = {
+		name = cbshing_origins_alien_message_event.2.a
+		add_monthly_resource_mult = {
+			resource = influence
+			value = @tier2influencereward
+			min = @tier2influencemin
+			max = @tier2influencemax
+		}
+		add_monthly_resource_mult = {
+			resource = unity
+			value = @tier2unityreward
+			min = @tier2unitymin
+			max = @tier2unitymax
+		}			
+		end_event_chain = "cbshing_alien_message_homeworld_chain"
+		add_modifier = { modifier = cbshing_origins_found_alien_message_origin days = 3600 }
+	}
+}
+
+
+# Establish comms when entering the border of a known species (alien message)
+fleet_event = {
+	id = cbshing_origins_alien_message_event.40
+	title = cbshing_origins_alien_message_event.41.name
+	desc = cbshing_origins_alien_message_event.41.desc
+	
+	picture = GFX_evt_star_chart
+	show_sound = event_ship_bridge
+	location = FROM
+
+	is_triggered_only = yes
+
+	trigger = {
+		owner = { 
+			is_country_type = default
+			is_alien_message_country = yes
+		}
+		from = {
+			OR = {
+				AND = {
+					exists = space_owner
+					space_owner = {
+						has_country_flag = alien_message_origin_country
+						NOT = { has_communications = root.owner }
+					}				
+				}
+				#any_neighbor_system = {
+				#	exists = space_owner
+				#	space_owner = {
+				#		has_country_flag = alien_message_origin_country
+				#		NOT = { has_communications = root.owner }
+				#	}					
+				#}
+			}
+		}
+	}
+
+	immediate = {
+		from = {
+			if = {
+				limit = {
+					exists = space_owner
+					space_owner = {
+						has_country_flag = alien_message_origin_country
+						NOT = { has_communications = root.owner }
+					}				
+				}
+				space_owner = {
+					save_event_target_as = contact_empire
+				}	
+				#else = {
+				#	random_neighbor_system = {
+				#		limit = {
+				#			exists = space_owner
+				#			space_owner = {
+				#				has_country_flag = alien_message_origin_country
+				#				NOT = { has_communications = root.owner }
+				#			}				
+				#		}
+				#		space_owner = {
+				#			save_event_target_as = contact_empire
+				#		}						
+				#	}				
+				#}
+			}
+		}
+	}
+		
+	option = {
+		name = cbshing_origins_lost_colony_event.41.a
+		hidden_effect = {
+			owner = {
+				establish_contact = {
+					who = event_target:contact_empire
+					location = event_target:contact_empire.capital_scope
+				}
+				establish_communications = event_target:contact_empire
+				add_opinion_modifier = {
+					who = event_target:contact_empire
+					modifier = cbshing_origins_alien_message
+				}
+				if = {
+					limit = { event_target:contact_empire = { has_country_flag = alien_message_origin_country } }
+					random_system_within_border = { limit = { has_star_flag = alien_message_origin_system } remove_star_flag = alien_message_origin_system }
+					country_event = { id = cbshing_origins_alien_message_event.13 days = 5 }
+				}
+			}
+		}
+	}
+}
+
+# Establish comms when entering the border of a known species (alien message)
+fleet_event = {
+	id = cbshing_origins_alien_message_event.41
+	title = cbshing_origins_alien_message_event.41.name
+	desc = cbshing_origins_alien_message_event.41.desc
+	
+	picture = GFX_evt_star_chart
+	show_sound = event_ship_bridge
+	location = FROM
+
+	is_triggered_only = yes
+
+	trigger = {
+		owner = { 
+			is_country_type = default
+			is_alien_message_country = yes
+		}
+		from = {
+			OR = {
+				AND = {
+					exists = space_owner
+					space_owner = {
+						has_country_flag = alien_message_origin_country
+						NOT = { has_communications = root.owner }
+					}				
+				}
+				#any_neighbor_system = {
+				#	exists = space_owner
+				#	space_owner = {
+				#		has_country_flag = alien_message_origin_country
+				#		NOT = { has_communications = root.owner }
+				#	}					
+				#}
+			}
+		}
+	}
+
+	immediate = {
+		from = {
+			if = {
+				limit = {
+					exists = space_owner
+					space_owner = {
+						has_country_flag = alien_message_origin_country
+						NOT = { has_communications = root.owner }
+					}				
+				}
+				space_owner = {
+					save_event_target_as = contact_empire
+				}	
+				#else = {
+				#	random_neighbor_system = {
+				#		limit = {
+				#			exists = space_owner
+				#			space_owner = {
+				#				has_country_flag = alien_message_origin_country
+				#				NOT = { has_communications = root.owner }
+				#			}				
+				#		}
+				#		space_owner = {
+				#			save_event_target_as = contact_empire
+				#		}						
+				#	}				
+				#}
+			}
+		}
+	}
+		
+	option = {
+		name = cbshing_origins_lost_colony_event.41.a
+		hidden_effect = {
+			owner = {
+				establish_contact = {
+					who = event_target:contact_empire
+					location = event_target:contact_empire.capital_scope
+				}
+				establish_communications = event_target:contact_empire
+				add_opinion_modifier = {
+					who = event_target:contact_empire
+					modifier = cbshing_origins_alien_message
+				}
+				if = {
+					limit = { event_target:contact_empire = { has_country_flag = alien_message_origin_country } }
+					random_system_within_border = { limit = { has_star_flag = alien_message_origin_system } remove_star_flag = alien_message_origin_system }
+					country_event = { id = cbshing_origins_alien_message_event.3 days = 5 }
+				}
+			}
+		}
+	}
+}
+
+# Below creates the alien message event
+country_event = {
+	id = cbshing_origins_alien_message_event.11
+	title = "cbshing_origins_alien_message_event.11.name"
+	desc = "cbshing_origins_alien_message_event.11.desc"
+	picture = GFX_evt_satellite_in_orbit
+	show_sound = event_sensor_ping
+	
+	location = ROOT
+	
+	trigger = {
+		is_alien_message_country = yes
+		is_ai = no
+	}
+	
+	is_triggered_only = yes
+	
+	immediate = { }
+	
+	option = {
+		name = cbshing_origins_alien_message_event.11.a
+		begin_event_chain = {
+			event_chain = "cbshing_alien_message_homeworld_chain"
+			target = ROOT
+		}
+		hidden_effect = {
+			random_system = {
+				limit = {
+					is_surveyed = {
+						who = from
+						status = no
+					}
+					NOR = { 
+						has_star_flag = alien_message_origin_system 
+						has_star_flag = alien_message_hunt1_system 
+						has_star_flag = alien_message_hunt2_system 
+						has_star_flag = alien_message_hunt3_system 
+						has_star_flag = alien_message_hunt4_system 
+						has_star_flag = alien_message_hunt5_system 
+					}
+					OR = { 
+						has_star_flag = empire_home_system 
+						has_star_flag = com_sol
+						AND = {
+							has_star_flag = primitive_system
+							any_planet = {
+								exists = owner
+								owner = {
+									OR = {
+										has_country_flag = machine_age
+										has_country_flag = atomic_age
+										has_country_flag = early_space_age
+									}
+								}
+							}
+						}
+						AND = {
+							has_star_flag = primitive_sol
+							any_planet = {
+								exists = owner
+								owner = {
+									OR = {
+										has_country_flag = machine_age
+										has_country_flag = atomic_age
+										has_country_flag = early_space_age
+									}
+								}
+							}
+						}
+					}
+				}
+				save_event_target_as = alien_message_origin_system_flag
+				set_star_flag = alien_message_origin_system
+				random_system_planet = {
+					limit = { exists = owner }
+					owner = { set_country_flag = alien_message_origin_country }
+					set_planet_flag = alien_message_origin_planet
+				}
+			}
+
+			set_country_flag = found_alien_message_origin_country
+			remove_country_flag = searching_for_alien_message_country
+			create_point_of_interest = {
+				id = cbshing_alien_message_poi.11
+				name = "cbshing_alien_message_11_poi"
+				desc = cbshing_alien_message_11_desc
+				event_chain = cbshing_alien_message_homeworld_chain
+				location = event_target:alien_message_origin_system_flag
+			}
+		}
+	}
+}
+
+# Scope = Ship
+# From = System
+# FromFrom = Country
+# also owner, obv
+ship_event = {
+	id = cbshing_origins_alien_message_event.12
+	title = cbshing_origins_alien_message_event.2.name
+	desc = cbshing_origins_alien_message_event.2.desc
+	
+	picture = GFX_evt_news_room
+	show_sound = event_celebration
+	location = FROM
+
+	is_triggered_only = yes
+
+	trigger = {
+		from = { has_star_flag = alien_message_origin_system }
+		owner = { 
+			has_country_flag = found_alien_message_origin_country 
+			NOT = { has_country_flag = arrived_alien_message_country }
+			is_alien_message_country = yes
+			is_ai = no
+		}
+	}
+
+	immediate = {
+		from = { remove_star_flag = alien_message_origin_system }
+		owner = {
+			remove_country_flag = found_alien_message_origin_country
+			set_country_flag = arrived_alien_message_country
+			add_event_chain_counter = { 
+				event_chain = "cbshing_alien_message_homeworld_chain" 
+				counter = "origin_found" 
+				amount = 1 
+			}
+		}
+	}
+
+	option = {
+		name = cbshing_origins_alien_message_event.12.a
+		owner = {
+			add_monthly_resource_mult = {
+				resource = influence
+				value = @tier2influencereward
+				min = @tier2influencemin
+				max = @tier2influencemax
+			}
+			add_monthly_resource_mult = {
+				resource = unity
+				value = @tier2unityreward
+				min = @tier2unitymin
+				max = @tier2unitymax
+			}			
+			end_event_chain = "cbshing_alien_message_homeworld_chain"
+			add_modifier = { modifier = cbshing_origins_found_alien_message_origin days = 3600 }
+		}
+		trigger = {
+			FROM = {
+				any_planet = {
+					has_planet_flag = alien_message_origin_planet
+					exists = owner
+				}
+			}
+		}
+	}
+	option = {
+		name = cbshing_origins_alien_message_event.12.b
+		owner = {
+			add_monthly_resource_mult = {
+				resource = influence
+				value = @tier2influencereward
+				min = @tier2influencemin
+				max = @tier2influencemax
+			}
+			add_monthly_resource_mult = {
+				resource = unity
+				value = @tier2unityreward
+				min = @tier2unitymin
+				max = @tier2unitymax
+			}			
+			end_event_chain = "cbshing_alien_message_homeworld_chain"
+			add_modifier = { modifier = cbshing_origins_found_alien_message_origin days = 3600 }
+		}
+		trigger = {
+			FROM = {
+				any_planet = {
+					is_planet_class = pc_nuked
+					NOT = { exists = owner }
+				}
+			}
+		}
+	}
+}
+
+#normal empire
+country_event = {
+	id = cbshing_origins_alien_message_event.13
+	title = cbshing_origins_alien_message_event.2.name
+	desc = cbshing_origins_alien_message_event.2.desc
+	
+	picture = GFX_evt_news_room
+	show_sound = event_celebration
+	location = FROM
+
+	is_triggered_only = yes
+
+	trigger = {
+		has_country_flag = found_alien_message_origin_country 
+		NOT = { has_country_flag = arrived_alien_message_country }
+		is_alien_message_country = yes
+		is_ai = no
+	}
+
+	immediate = {
+		#from = { remove_star_flag = alien_message_origin_system }
+		remove_country_flag = found_alien_message_origin_country
+		set_country_flag = arrived_alien_message_country
+		add_event_chain_counter = { 
+			event_chain = "cbshing_alien_message_homeworld_chain" 
+			counter = "origin_found" 
+			amount = 1 
+		}
+	}
+
+	option = {
+		name = cbshing_origins_alien_message_event.12.a
+		add_monthly_resource_mult = {
+			resource = influence
+			value = @tier2influencereward
+			min = @tier2influencemin
+			max = @tier2influencemax
+		}
+		add_monthly_resource_mult = {
+			resource = unity
+			value = @tier2unityreward
+			min = @tier2unitymin
+			max = @tier2unitymax
+		}			
+		end_event_chain = "cbshing_alien_message_homeworld_chain"
+		add_modifier = { modifier = cbshing_origins_found_alien_message_origin days = 3600 }
+	}
+}
+
+
+
+# Below creates the alien message event
+country_event = {
+	id = cbshing_origins_alien_message_event.100
+	title = "cbshing_origins_alien_message_event.1.name"
+	desc = "cbshing_origins_alien_message_event.1.desc"
+	picture = GFX_evt_satellite_in_orbit
+	show_sound = event_sensor_ping
+	
+	location = ROOT
+	
+	trigger = {
+		is_alien_message_country = yes
+		is_ai = no
+	}
+	
+	is_triggered_only = yes
+	
+	immediate = { }
+	
+	option = {
+		name = cbshing_origins_alien_message_event.1.a
+		begin_event_chain = {
+			event_chain = "cbshing_alien_message_event_chain"
+			target = ROOT
+		}
+		hidden_effect = {
+			random_system = {
+				limit = {
+					is_surveyed = {
+						who = from
+						status = no
+					}
+					NOR = { 
+						has_star_flag = alien_message_origin_system 
+						has_star_flag = alien_message_hunt1_system 
+						has_star_flag = alien_message_hunt2_system 
+						has_star_flag = alien_message_hunt3_system 
+						has_star_flag = alien_message_hunt4_system 
+						has_star_flag = alien_message_hunt5_system 
+					}
+					OR = { 
+						has_star_flag = empire_home_system 
+						has_star_flag = com_sol
+						AND = {
+							has_star_flag = primitive_system
+							any_planet = {
+								exists = owner
+								owner = {
+									OR = {
+										#has_country_flag = machine_age
+										#has_country_flag = atomic_age
+										has_country_flag = early_space_age
+									}
+								}
+							}
+						}
+						AND = {
+							has_star_flag = primitive_sol
+							any_planet = {
+								exists = owner
+								owner = {
+									OR = {
+										#has_country_flag = machine_age
+										#has_country_flag = atomic_age
+										has_country_flag = early_space_age
+									}
+								}
+							}
+						}
+					}
+				}
+				save_event_target_as = alien_message_origin_system_flag
+				set_star_flag = alien_message_origin_system
+				random_system_planet = {
+					limit = { exists = owner }
+					owner = { set_country_flag = alien_message_origin_country }
+				}
+			}
+
+			set_country_flag = searching_for_alien_message_country
+			create_point_of_interest = {
+				id = cbshing_alien_message_poi.1
+				name = "cbshing_alien_message_1_poi"
+				#desc = cbshing_alien_message_1_desc
+				event_chain = cbshing_alien_message_event_chain
+				location = event_target:alien_message_origin_system_flag
+			}
+		}
+	}
+}

@@ -1,0 +1,170 @@
+# Origins Civics Compatch Scripted Triggers
+# This file is essentially blank and to be overwritten by compatch mods
+# Add your desired flag to the appropriate trigger and your mod can 
+#   inherit the event codes of the Origins Civics mod
+# Scopes are defined where necessary
+#
+#	Example:
+# 
+#	#scope: country
+#	is_origins_compatch_example_trigger = {
+#		OR = {
+#			has_valid_civic = origins_compatch_civic
+#			has_country_flag = origins_compatch_country_flag
+#		}
+#	}
+#
+#
+
+#### Origins Civics Compatch Mod(s) ####
+## New Secondary Species (Codominant Evolution) Civics ##
+# this trigger is generic for any organic secondary species and replaces pops on farming & mineral tiles
+#scope: country
+is_origins_compatch_secondary_organic_species_country = {
+	has_country_flag = invalid_origins_country_flag
+}
+
+# this trigger is generic for any secondary species and replaces pops only on the mining tiles
+#scope: country
+is_origins_compatch_secondary_machine_species_country = {
+	has_country_flag = invalid_origins_country_flag
+}
+
+## Habitat Civics ##
+# this trigger makes a habitat over your homeworld
+#scope: country
+is_origins_compatch_habitat_country  = {
+	OR = {
+		is_origins_compatch_voidborne_country =  yes
+		has_country_flag = invalid_origins_country_flag
+	}
+}
+#scope: country
+# this trigger changes your species planet preference to be pc_habitat
+is_origins_compatch_voidborne_country  = {
+	has_country_flag = invalid_origins_country_flag
+}
+#scope: country
+# this trigger changes your old homeworld to have a non-colonizable planet type
+is_origins_compatch_nuke_old_homeworld_country = {
+	has_country_flag = invalid_origins_country_flag
+}
+
+## Colonies Civics ##
+# this trigger enables this country to be setup the same as a lost colony (same species new homeworld)
+#scope: country
+is_origins_compatch_origins_lost_colony_start_country  = {
+	has_country_flag = invalid_origins_country_flag
+}
+
+# this trigger enables this country to have the same events as a lost colony
+#scope: country
+is_origins_compatch_origins_lost_colony_event_country  = {
+	has_country_flag = invalid_origins_country_flag
+}
+
+# this trigger enables this country to be a colony of earth (have Earth as a homeworld)
+#scope: country
+is_origins_compatch_origins_colony_of_earth_country  = {
+	has_country_flag = invalid_origins_country_flag
+}
+
+## Change Climate (Climate Shift) Civics ##
+# this trigger changes the planet type of your homeworld
+#scope: country
+is_origins_compatch_different_climate_start_country = {
+	has_country_flag = invalid_origins_country_flag
+}
+
+## Machine World Civics ##
+# this trigger changes your homeworld to a machine world
+#scope: country
+is_origins_compatch_machine_world_start_country = {
+	has_country_flag = invalid_origins_country_flag
+}
+
+## Nuclear Civics ##
+# this trigger changes your homeworld to a tomb world
+#scope: country
+is_origins_compatch_nuclear_start_country = {
+	OR = { 
+		is_origins_compatch_vault_country = yes
+		is_origins_compatch_tomb_preference_country = yes
+	}
+}
+# this trigger allows for this country to have the vault building on their homeworld
+#scope: country
+is_origins_compatch_vault_country = {
+	has_country_flag = invalid_origins_country_flag
+}
+# this trigger changes your country to have tomb world preference
+#scope: country
+is_origins_compatch_tomb_preference_country = {
+	has_country_flag = invalid_origins_country_flag
+}
+
+## Galaxy Generation Triggers
+## Events are in cbshing_origins_system_setup_start.txt
+# this trigger removes all hyperlanes from the country's home system
+#scope: country
+is_origins_compatch_remove_all_hyperlanes_country = {
+	OR = {
+		has_country_flag = invalid_origins_country_flag
+	}
+}
+# this trigger adds a wormhole, wormhole stabilization, and wormhole travel at game start
+#scope: country
+is_origins_compatch_wormhole_start_country = {
+	OR = {
+		has_country_flag = invalid_origins_country_flag
+	}
+}
+# this trigger adds a gateway under construction, gateway construction tech, gateway travel tech, and megaengineering
+#scope: country
+is_origins_compatch_gateway_under_construction_start_country = {
+	OR = {
+		has_country_flag = invalid_origins_country_flag
+	}
+}
+# this trigger adds a completed gateway, gateway construction tech, gateway travel tech, and megaengineering
+#scope: country
+is_origins_compatch_gateway_completed_start_country = {
+	OR = {
+		has_country_flag = invalid_origins_country_flag
+	}
+}
+# this trigger adds an abandoned gateway to the home system
+#scope: country
+is_origins_compatch_gateway_abandoned_start_country = {
+	OR = {
+		is_cbshing_addon_gateway_abandoned_start_country = yes
+	}
+}
+
+## Ascension Theory
+## Events are in cbshing_origins_other_starts.txt
+# this trigger gives ascension theory tech at game start
+#scope: country
+is_origins_compatch_ascension_theory_country = {
+	OR = {
+		has_country_flag = invalid_origins_country_flag
+	}
+}
+
+## Gaia Civics Triggers
+## Events are in cbshing_origins_gaia_world_start.txt
+# this trigger changes the homeworld to be a gaia world
+#scope: country
+is_origins_compatch_gaia_start_country = {
+	OR = {
+		has_country_flag = invalid_origins_country_flag	
+	}
+}
+
+## Dyson Sphere Civics Triggers
+## Events are in cbshing_origins_dyson_sphere_start.txt
+# this trigger changes the home system to start with a Dyson Sphere plus any of the Dyson Sphere event
+#scope: country
+is_origins_compatch_dyson_sphere_country = {
+	has_country_flag = invalid_origins_country_flag
+}

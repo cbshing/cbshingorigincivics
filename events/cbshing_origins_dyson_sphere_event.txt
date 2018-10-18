@@ -1,0 +1,172 @@
+namespace = cbshing_origins_dyson_sphere_event
+# file contains Dyson Engineers Events
+# by cbshing
+
+# Triggers after getting required tech
+### Gives Gateway Travel & Construction Tech Special Project
+country_event = {
+	id = cbshing_origins_dyson_sphere_event.1
+	title = cbshing_origins_dyson_sphere_event.1.name
+	desc = cbshing_origins_dyson_sphere_event.1.desc
+	
+	picture = GFX_evt_megastructure_construction
+	show_sound = event_construction
+	location = FROM
+	
+	is_triggered_only = yes
+
+	trigger = { 
+		is_cbshing_dyson_sphere_country = yes 
+		is_ai = no
+		NOT = { has_country_flag =  enabled_dyson_gateway_construction_project }
+		any_system_within_border = { has_star_flag = abandoned_gateway }
+		#has_country_flag = encountered_first_gateway
+		has_technology = tech_starbase_5
+		has_technology = tech_space_defense_station_improvement
+		has_technology = tech_mega_engineering
+		NOR = { 
+			has_country_flag = gateway_reactivated
+			has_country_flag = gateway_built
+		}
+	}
+
+	immediate = {
+		set_country_flag = enabled_dyson_gateway_construction_project
+	}
+	
+	option = {
+		name = "cbshing_origins_dyson_sphere_event.1.a"
+		random_owned_planet = {
+			limit = { is_capital = yes }
+			enable_special_project = {
+				name = "DYSON_GATEWAY_ENGINEERING"
+				location = this
+				owner = root
+			}
+		}
+	}
+}
+
+### Gives Gateway Travel & Construction Tech to Humans Completing Special Project
+country_event = {
+	id = cbshing_origins_dyson_sphere_event.3
+	title = cbshing_origins_dyson_sphere_event.3.name
+	desc = cbshing_origins_dyson_sphere_event.3.desc
+	
+	picture = GFX_evt_drifting_gateway
+	show_sound = event_mystic_reveal
+	location = FROM
+	
+	is_triggered_only = yes
+
+	trigger = { 
+		is_cbshing_dyson_sphere_country = yes 
+		is_ai = no
+		has_country_flag =  enabled_dyson_gateway_construction_project
+		NOT = { has_country_flag =  enabled_dyson_gateway_construction }
+	}
+
+	immediate = {
+		set_country_flag = enabled_dyson_gateway_construction
+	}
+	
+	option = {
+		name = "cbshing_origins_dyson_sphere_event.3.a"
+		custom_tooltip = cbshing_origins_dyson_sphere_event.3.a.tooltip
+		give_technology = { tech = "tech_gateway_activation" message = no }
+		give_technology = { tech = "tech_gateway_construction" message = no }
+	}
+}
+
+### Gives Gateway Travel & Construction Tech to AI
+country_event = {
+	id = cbshing_origins_dyson_sphere_event.2
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { 
+		is_cbshing_dyson_sphere_country = yes 
+		is_ai = yes
+		NOT = { has_country_flag =  enabled_dyson_gateway_construction }
+		any_system_within_border = { has_star_flag = abandoned_gateway }
+		#has_country_flag = encountered_first_gateway
+		has_technology = tech_starbase_5
+		has_technology = tech_space_defense_station_improvement
+		has_technology = tech_mega_engineering
+		NOR = { 
+			has_country_flag = gateway_reactivated
+			has_country_flag = gateway_built
+		}
+	}
+
+	immediate = {
+		set_country_flag = enabled_dyson_gateway_construction
+		give_technology = { tech = "tech_gateway_activation" message = no }
+		give_technology = { tech = "tech_gateway_construction" message = no }
+	}
+}
+
+#triggers ai gate activation
+event = {
+	id = cbshing_origins_dyson_sphere_event.10
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { 
+		years_passed >= 7
+		any_country = { 
+			is_cbshing_dyson_sphere_country = yes 
+			is_ai = yes 
+			NOT = { has_country_flag =  dyson_gateway_activated }
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				is_cbshing_dyson_sphere_country = yes 
+				is_ai = yes
+				NOT = { has_country_flag =  dyson_gateway_activated }
+			}
+			random_list = {
+				10 = {
+					modifier = {
+						factor = 3
+						years_passed >= 10
+					}
+					modifier = {
+						factor = 5
+						years_passed >= 15
+					}
+					modifier = {
+						factor = 10
+						years_passed >= 20
+					}
+					country_event = { id = cbshing_origins_dyson_sphere_event.11 days = 200 random = 800 }
+				}
+			}
+		}
+	}
+}
+country_event = {
+	id = cbshing_origins_dyson_sphere_event.11
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		set_country_flag = dyson_gateway_activated
+		this.capital_scope.solar_system = {
+			random_system_megastructure  = {
+				limit = { is_megastructure_type = gateway_0  }
+				upgrade_megastructure_to = gateway_final   
+				finish_upgrade = yes
+			}
+			random_megastructure = {
+				limit = { is_megastructure_type = gateway_ruined }
+				upgrade_megastructure_to = gateway_restored
+				finish_upgrade = yes
+			}
+		}
+		add_minerals = -5000
+	}
+}

@@ -1,0 +1,8 @@
+# Planet has been terraformed
+# This = Planet
+# From = Terraformer
+on_terraforming_complete = {
+	events = {
+		cbshing_origins_restore_home_event.1
+	}
+}

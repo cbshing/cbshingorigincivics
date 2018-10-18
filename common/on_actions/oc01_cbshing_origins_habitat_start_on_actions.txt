@@ -1,0 +1,14 @@
+# Triggers when the game starts
+on_game_start_country = {
+	events = {
+		#cbshing_origins_habitat_start.1 # change species to have habitat preference, spawn habitat, and create new pops there.
+	}
+}
+
+# Triggers when pressing begin in the intro window
+# This = country to press begin
+on_press_begin = {
+	events = {
+		cbshing_origins_habitat_start.2 # change species homeworld to be habitat, fixed for localisation issue & ascension issues
+	}
+}

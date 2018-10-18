@@ -1,0 +1,110 @@
+# by cbshing
+#	Example:
+#
+#	example_effect = {
+#		add_energy = -100
+#	}
+#
+#
+#	In a script file:
+#
+#	effect = {
+#		example_effect = yes
+#	}
+#
+
+# Given a species, change the planet type to match their preference
+# Can copy this effect and add other planet types to it
+# Scope: Planet
+origins_change_planet_type_to_match_preference = {
+	if = {
+		limit = {
+			last_created_pop = { has_trait = trait_pc_nuked_preference }
+		}
+		change_pc = pc_nuked
+	}
+	if = {
+		limit = {
+			last_created_pop = { has_trait = trait_pc_desert_preference }
+		}
+		change_pc = pc_desert
+	}
+	if = {
+		limit = {
+			last_created_pop = { has_trait = trait_pc_arid_preference }
+		}
+		change_pc = pc_arid
+	}
+	if = {
+		limit = {
+			last_created_pop = { has_trait = trait_pc_savannah_preference }
+		}
+		change_pc = pc_savannah
+	}
+	if = {
+		limit = {
+			last_created_pop = { has_trait = trait_pc_tropical_preference }
+		}
+		change_pc = pc_tropical
+	}
+	if = {
+		limit = {
+			last_created_pop = { has_trait = trait_pc_ocean_preference }
+		}
+		change_pc = pc_ocean
+	}
+	if = {
+		limit = {
+			last_created_pop = { has_trait = trait_pc_arctic_preference }
+		}
+		change_pc = pc_arctic
+	}
+	if = {
+		limit = {
+			last_created_pop = { has_trait = trait_pc_tundra_preference }
+		}
+		change_pc = pc_tundra
+	}
+	if = {
+		limit = {
+			last_created_pop = { has_trait = trait_pc_alpine_preference }
+		}
+		change_pc = pc_alpine
+	}
+	if = {
+		limit = {
+			last_created_pop = { has_trait = trait_pc_continental_preference }
+		}
+		change_pc = pc_continental
+	}
+	if = {
+		limit = {
+			last_created_pop = { has_trait = trait_pc_ai_preference }
+		}
+		change_pc = pc_ai
+	}
+	if = {
+		limit = {
+			last_created_pop = { has_trait = trait_pc_gaia_preference }
+		}
+		change_pc = pc_gaia
+	}
+	if = {
+		limit = {
+			last_created_pop = { has_trait = trait_pc_ringworld_habitable_preference }
+		}
+		change_pc = pc_gaia
+	}
+	if = {
+		limit = {
+			last_created_pop = { has_trait = trait_pc_habitat_preference }
+		}
+		change_pc = pc_gaia
+	}
+	if = {
+		limit = {
+			last_created_pop = { has_trait = trait_pc_machine_preference }
+		}
+		change_pc = pc_gaia
+	}
+}	

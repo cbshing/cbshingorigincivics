@@ -1,0 +1,238 @@
+namespace = cbshing_origins_earth_check_event
+# by cbshing
+
+### Hidden Game Start Event
+# Checks if Earth exists, if not create an Earth for relevant countries.
+event = {
+    id = cbshing_origins_earth_check_event.1
+    hide_window = yes
+    is_triggered_only = yes
+
+    immediate = {
+		# acknowledge sol is used
+		if = { 
+			limit = { any_system = { has_star_flag = sol } }
+			set_global_flag = origins_sol_system_used			
+		}
+		if = {
+			limit = {
+				NOT = { any_system = { has_star_flag = sol } }
+				OR = {
+					any_country = { has_country_flag = human_2 }
+					any_country = { is_cbshing_addon_origins_colony_of_earth_country = yes }
+				}
+			}
+			random_system = { spawn_system = { initializer = "origins_colony_sol_system" } }
+			set_global_flag = origins_sol_system_used
+			#need a random system to be the last system
+			random_system = { spawn_system = { initializer = "basic_init_01" } }
+			every_country = {
+				limit = {
+					OR = {
+						has_country_flag = human_2 
+						is_cbshing_addon_origins_colony_of_earth_country = yes 
+						NOT = { has_country_flag = country_homeworld_created }
+					}
+				}
+				if = { limit = { has_country_flag = human_2 }
+					owner_species = { save_event_target_as = origins_colony_species }
+				}
+				every_planet = {
+					limit = { 
+						is_cbshing_colony_home_planet = yes 
+						has_planet_flag = planet_earth
+						NOT = { has_planet_flag = origins_colony_selected }
+					}
+					planet_event = { id = cbshing_origins_earth_check_event.2 } 
+				}
+			}
+		}
+    }
+}
+
+# create random spawn homeworld
+# only for non-AI countries - this is to limit having too many random empires.
+planet_event = {
+	id = cbshing_origins_earth_check_event.2
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				is_cbshing_colony_home_planet = yes 
+				has_planet_flag = planet_earth
+				NOT = { has_planet_flag = origins_colony_selected }
+			}
+			set_planet_flag = origins_colony_selected
+			set_planet_flag = origins_planet_earth
+			
+			if = { 
+				limit = { 
+					NOT = { any_country = { has_country_flag = human_2 } }
+					any_country = { 
+						is_cbshing_addon_origins_colony_of_earth_country = yes 
+						NOT = { has_country_flag = country_homeworld_created } 
+					} 
+				}
+				create_species = {
+					is_mod = no
+					name = "PRESCRIPTED_species_name_humans1"
+					namelist = "HUMAN1"
+					plural = "PRESCRIPTED_species_plural_humans1"
+					adjective = "PRESCRIPTED_species_adjective_humans1"
+					class = "HUM"
+					portrait = "human"
+					traits = {
+						trait = "trait_adaptive"
+						trait = "trait_nomadic"
+						trait = "trait_wasteful"
+					}
+					homeworld = this
+					effect = { save_event_target_as = origins_colony_species }
+				}
+			}
+			
+			create_country = {
+				name = "NAME_United_Nations_of_Earth"
+				authority = auth_democratic
+				civics = {
+					civic = civic_beacon_of_liberty
+					civic = civic_idealistic_foundation
+				}
+				species = event_target:origins_colony_species
+				name_list = "HUMAN1"
+				ethos = {
+					ethic = "ethic_xenophile"
+					ethic = "ethic_fanatic_egalitarian"
+				}
+				flag = {
+					icon = {
+						category = "human"
+						file = "flag_human_9.dds"
+					}
+					background = {
+						category = "backgrounds"
+						file = "00_solid.dds"
+					}
+					colors = {
+						"blue"
+						"black"
+						"null"
+						"null"
+					}
+				}
+				type = default
+				effect = { set_country_flag = origins_colony_home_human_empire }
+				effect = { set_country_flag = origins_colony_home_empire }
+				effect = { save_event_target_as = npc_origins_colony_home_empire }
+			}
+			
+			while = {
+				count = 8
+				random_tile = {
+					limit = {
+						has_blocker = no
+						has_grown_pop = no
+						has_growing_pop = no
+						has_building = yes
+					}
+					create_pop = {
+						species = event_target:origins_colony_species
+					}
+				}
+			}
+			set_owner = last_created_country
+			if = {
+				limit = {
+					last_created_pop = { NOT = { has_trait = trait_pc_continental_preference } }
+				}
+				origins_change_planet_type_to_match_preference = yes
+			}
+			origins_add_vanilla_tile_blockers = yes
+			
+			last_created_country.capital_scope.solar_system = {
+				create_starbase = {
+					size = starbase_starport
+					module = shipyard
+					owner = event_target:npc_origins_colony_home_empire
+				}
+			}
+			
+			#science
+			create_fleet = {
+				effect = {
+					set_owner = last_created_country
+
+					create_ship = {
+						name = random
+						random_existing_design = science
+					}
+
+					set_fleet_stance = evasive				
+					set_location = last_created_country.capital_scope.star
+					
+					owner = {
+						create_leader = {
+							type = scientist
+							sub_type = survey
+							name = random
+							species = owner_main_species
+						}
+					}
+					set_leader = last_created_leader
+				}			
+			}
+				
+			#constructor
+			create_fleet = {
+				effect = {
+					set_owner = last_created_country
+					
+					create_ship = {
+						name = random
+						random_existing_design = constructor
+					}
+					
+					set_fleet_stance = evasive
+					set_location = last_created_country.capital_scope.star
+				}
+			}
+
+			#military
+			create_fleet = {
+				set_take_point = yes
+				effect = {
+					set_owner = last_created_country
+					
+					while = {
+						count = 3
+						create_ship = {
+							name = random
+							random_existing_design = corvette
+						}
+					}
+					
+					set_location = last_created_country.capital_scope.star
+				}
+			}
+			last_created_country = { add_minerals = 300 add_energy = 600 }
+			last_created_country = { set_country_flag = "colony_home_empire" }
+			last_created_country = { country_event = { id = cbshing_origins_colony_start.2 days = -1 } }
+			
+			every_tile = {
+				limit = {
+					has_blocker = no
+					has_pop = yes
+				}
+				kill_pop = yes
+				create_pop = {
+					species = last_created
+					ethos = random
+				}
+			}
+			set_owner = owner
+			owner = { change_dominant_species = { species = last_created } }
+		}
+	}
+}

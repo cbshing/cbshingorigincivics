@@ -1,0 +1,125 @@
+namespace = cbshing_origins_dyson_sphere_start
+# file modifies start planets to be a Dyson Engineers Start
+# by cbshing
+
+# Triggers when the game starts
+### Add a partial dyson sphere to home system if have Dyson Engineers Civics on Game Start
+country_event = {
+	id = cbshing_origins_dyson_sphere_start.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { is_cbshing_dyson_sphere_country = yes }
+
+	immediate = {
+		capital_scope.solar_system = {
+			#Remove Mining Station on Star
+			random_system_planet = {
+				limit = { is_star = yes is_primary_star = yes }
+				clear_deposits = yes
+				if = { limit = { has_mining_station = yes }
+					mining_station = { dismantle = yes }
+				}
+				save_event_target_as = origins_dyson_sphere_star
+			}
+			# Create Dyson Sphere
+			spawn_megastructure = { 
+				type = cbshing_origins_dyson_sphere_2
+				location = event_target:origins_dyson_sphere_star
+				owner = FROMFROM
+			}
+			# Create Gateway
+			#done in the cbshing_origins_system_setup_start.txt
+			
+			#remove all hyperlanes to system
+			#done in the cbshing_origins_system_setup_start.txt
+			
+			#Spawn Neighbor Hostile System
+			random_list = {
+				25 = {
+					spawn_system = {
+						min_distance = 0
+						max_distance = 20
+						initializer = "origins_hostile_init_02"
+					}
+				}
+				25 = {
+					spawn_system = {
+						min_distance = 0
+						max_distance = 20
+						initializer = "origins_hostile_init_05" 
+					}
+				}
+				20 = {
+					spawn_system = {
+						min_distance = 0
+						max_distance = 20
+						initializer = "origins_hostile_init_10"
+					}
+				}
+				25 = {
+					spawn_system = {
+						min_distance = 0
+						max_distance = 20
+						initializer = "origins_hostile_init_12_drone_destroyer"
+					}
+				}
+				5 = {
+					spawn_system = {
+						min_distance = 0
+						max_distance = 20
+						initializer = "origins_hostile_init_18"
+					}
+				}
+			}
+			
+			every_neighbor_system = {
+				ignore_hyperlanes = no
+				limit = { has_star_flag = origins_hostile }
+				origins_add_hyperlane_to_random_neighbors = yes
+			}
+			
+			add_dyson_hostile_neighbor_hyperlane = yes
+		}
+		set_country_flag = built_dyson_sphere
+		#set_country_flag = starting_event #prevent the starting events from starting due to not working without hyperlanes
+		
+		#boost minerals for human players
+		if = { 
+			limit = { is_ai = no }
+			add_minerals = 7300
+		}
+		
+		#give megaengineering & special techs
+		#done in the cbshing_origins_system_setup_start.txt
+		
+		#clear blockers on homeworld (lived there a long time)
+		random_owned_planet ={
+			limit = { is_capital = yes }
+			every_tile = {
+				remove_blocker = yes
+			}
+			cbshing_origins_setup_dyson_sphere_homeworld = yes 
+		}
+				
+		# setup mining & research stations			
+		every_planet_within_border = {
+			limit = { 
+				has_deposit_for = shipclass_mining_station 
+				has_mining_station = no
+			}
+			create_mining_station = {
+				owner = ROOT
+			}
+		}
+		every_planet_within_border = {
+			limit = { 
+				has_deposit_for = shipclass_research_station 
+				has_research_station = no
+			}
+			create_research_station = {
+				owner = ROOT
+			}
+		}
+	}
+}

@@ -1,0 +1,136 @@
+namespace = cbshing_origins_restore_home_event
+# by cbshing
+
+# Below checks if the homeworld is in need of being restored
+planet_event = {
+	id = cbshing_origins_restore_home_event.1
+	title = "cbshing_origins_restore_home_event.1.name"
+	desc = "cbshing_origins_restore_home_event.1.desc"
+	picture = GFX_evt_news_room
+	show_sound = event_celebration
+	
+	location = ROOT
+	
+	trigger = {
+		has_owner = yes
+		original_owner = yes #may need to rethink if player loses homeworld, its terraformed, and regains it will a bug occur
+		is_homeworld = yes
+		owner = { is_ai = no }
+		has_ground_combat = no #don't know if its needed
+		is_occupied_flag = no #don't know if its needed
+		num_pops > 0 #must have pops living on their home, may change
+		owner = { has_country_flag = "origins_restore_homeworld_needed" }
+		NOR = { 
+			has_planet_flag = cbshing_origins_restore_home_event_planet_true
+			owner = { has_country_flag = cbshing_origins_restore_home_event_country_true }
+		}
+		OR = {
+			is_planet_class = pc_gaia # this is added if someone has terraformed their homeworld to gaia instead.
+			is_ideal_planet_class = { who = owner status = yes }
+		}
+	}
+
+	#mean_time_to_happen  { days = 2 } #delayed by 2 days so planet terraformed pop up does not overlap
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		set_planet_flag = cbshing_origins_restore_home_event_planet_true 
+		owner = { 
+			set_country_flag = cbshing_origins_restore_home_event_country_true 
+			if = {
+				limit = { has_event_chain = cbshing_origins_restore_home_event_chain }
+				end_event_chain = "cbshing_origins_restore_home_event_chain"
+			}
+		}
+	}
+	
+	option = {
+		name = cbshing_origins_restore_home_event.1.a
+		owner = {
+			add_monthly_resource_mult = {
+				resource = unity
+				value = 120
+				min = 240
+				max = 9999
+			}
+			add_monthly_resource_mult = {
+				resource = influence
+				value = 18
+				min = 125
+				max = 250
+			}
+			add_modifier = { modifier = cbshing_origins_restored_homeworld days = 3600 }
+		}
+	}
+}
+
+# Below checks if the event chain is valid for the player
+# Triggers 9000 days (25 years) after player researches Climate Restoration tech and player has not terraformed their home world
+planet_event = {
+	id = cbshing_origins_restore_home_event.2
+	hide_window = yes
+	
+	location = ROOT
+	
+	trigger = {
+		has_owner = yes
+		original_owner = yes
+		is_homeworld = yes
+		owner = { is_ai = no }
+		has_ground_combat = no #don't want you to be at war to start event chain
+		is_occupied_flag = no #don't want your homeworld occupied to start event chain
+		num_pops > 0 #must have pops living on homeworld to start event chain
+		owner = { has_country_flag = "origins_restore_homeworld_needed" }
+		owner = { has_technology = tech_climate_restoration }
+		NOT ={ 
+			owner = { has_country_flag = cbshing_origins_restore_home_event_country_true }
+			owner = { has_country_flag = cbshing_origins_restore_home_event_chain_initiated }
+		}
+		NOR = {
+			is_planet_class = pc_gaia # this is added if someone has terraformed their homeworld to gaia instead.
+			is_ideal_planet_class = { who = owner status = yes }
+		}
+	}
+	mean_time_to_happen  { years = 25 }
+	#mean_time_to_happen  { years = 1 } #only for debugging
+	
+	immediate = {
+		#save_event_target_as = cbshing_origins_restore_home_event_homeworld #used to make homeworld POI
+		owner = { country_event = { id = cbshing_origins_restore_home_event.3 } }
+	}
+}
+
+# Below initiates the home world restoration event chain
+country_event = {
+	id = cbshing_origins_restore_home_event.3
+	title = "cbshing_origins_restore_home_event.3.name"
+	desc = "cbshing_origins_restore_home_event.3.desc"
+	picture = GFX_evt_dead_city
+	show_sound = event_ghost_town
+	
+	location = home_planet
+	#location = event_target:cbshing_origins_restore_home_event_homeworld #should replace with home_planet
+	
+	is_triggered_only = yes
+	
+	immediate = { 
+		set_country_flag = cbshing_origins_restore_home_event_chain_initiated 
+	}
+	
+	option = {
+		name = "cbshing_origins_restore_home_event.3.a"
+		begin_event_chain = {
+			event_chain = "cbshing_origins_restore_home_event_chain"
+			target = ROOT
+		}
+		create_point_of_interest = {
+			id = cbshing_origins_restore_home_event_chain_id.1
+			name = "cbshing_origins_restore_home_event_chain_poi"
+			desc = "cbshing_origins_restore_home_event_chain_poi_desc"
+			event_chain = "cbshing_origins_restore_home_event_chain"
+			#location = event_target:cbshing_origins_restore_home_event_homeworld #cannot figure out why POI is above planet
+			location = home_planet
+		}
+	}
+}

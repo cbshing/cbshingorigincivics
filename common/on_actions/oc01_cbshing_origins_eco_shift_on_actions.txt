@@ -1,0 +1,9 @@
+# Called during empire initialization when starting a new game.
+# This on_action should always result in the creation of at least one new pop.
+# scope: planet
+# from: founder species
+empire_init_create_capital_pops = {
+	events = {
+		#cbshing_origins_eco_shift_start.1
+	}
+}

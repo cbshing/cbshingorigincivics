@@ -1,0 +1,22 @@
+namespace = cbshing_origins_gaia_world_start
+
+### Change homeworld to Gaia World if have Gaia World Civics on Game Start
+country_event = {
+	id = cbshing_origins_gaia_world_start.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { 
+		is_cbshing_gaia_start_country = yes 
+		host_has_dlc = "Apocalypse"
+	}
+
+	immediate = {
+		random_owned_planet = {
+			limit = { is_capital = yes }
+			change_pc = pc_gaia
+			
+			origins_add_vanilla_tile_blockers = yes
+		}
+	}
+}

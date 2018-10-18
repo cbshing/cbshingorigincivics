@@ -1,0 +1,617 @@
+#civic_example = {
+#	playable = {}								# AND trigger, no scope; use this to prevent the civic from being selectable by the player (UI)
+#	potential = {}								# requirements list, see ../readme_requirements.txt
+#	possible = {}								# requirements list, see ../readme_requirements.txt
+#	pickable_at_start = yes / no				# default: yes
+#	modification = yes / no						# default: yes, set to no to prevent adding or removing this after creation of the empire
+#
+#	random_weight = { base = 1 }				# scriptable weight for randomizing a civic; required, else the civic will not get assigned randomly
+#
+#	modifier = {}								# modifier added to the country if the civic is selected and valid
+#	can_build_ruler_military_station = yes / no	# default: no
+#	can_build_ruler_ship = yes / no				# default: no
+#	has_secondary_species = {					# default: none; if present, will enable secondary species customization in empire designer and will create secondary species & pops at galaxy generation time (see empire_init_create_capital_secondary_pops)
+#		traits = { trait = ... }					# default: empty; trait set to enforce on the secondary species. They cannot be removed, but more can be added if points/picks permit
+#	}
+#}
+civic_cbshing_codominant_evolution = {
+	modification = no
+	playable = { host_has_dlc = "Utopia" }
+	potential = { ethics = { NOT = { value = ethic_gestalt_consciousness } } }
+	possible = {
+		civics = {
+			NOR = {
+				value = civic_mechanists
+				value = civic_fanatic_purifiers
+				value = civic_agrarian_idyll
+				value = civic_syncretic_evolution
+				value = civic_inwards_perfection
+				value = civic_post_apocalyptic
+				value = civic_life_seeded
+
+				#value = civic_cbshing_lost_colony
+				value = civic_cbshing_alien_message
+				#value = civic_cbshing_eco_disaster
+				#value = civic_cbshing_eco_shift
+				#value = civic_cbshing_eternal_leader
+				#value = civic_cbshing_nuclear_vault
+				#value = civic_cbshing_nuked_start
+				#value = civic_cbshing_nuclear_mutation
+				value = civic_cbshing_voidborne
+				
+				#value = civic_cbshing_codominant_mechanists
+				#value = civic_cbshing_syncretic_mechanists
+				#value = civic_cbshing_habitat_life
+				#value = civic_cbshing_ringborne
+				#value = civic_cbshing_gaia_world
+				#value = civic_cbshing_dyson_sphere
+			}
+		}
+	}
+	random_weight = {
+		base = 0.5
+		modifier = {
+			factor = 0
+			NOT = { host_has_dlc = "Utopia" }
+		}
+		modifier = {
+			# civic has no effect after galaxy generation, disable for random generation
+			factor = 0
+			has_global_flag = game_started
+		}
+	}
+
+	description = civic_tooltip_cbshing_codominant_evolution_effects
+	has_secondary_species = {	# see game_start.11
+		title = civic_cbshing_codominant_evolution_secondary_species
+	}
+}
+
+civic_cbshing_lost_colony = {
+	modification = no
+	potential = { ethics = { NOT = { value = ethic_gestalt_consciousness } } }
+	possible = {
+		civics = {
+			NOR = {
+				value = civic_syncretic_evolution
+				value = civic_agrarian_idyll
+				value = civic_post_apocalyptic
+				value = civic_life_seeded
+				
+				#value = civic_cbshing_codominant_evolution
+				value = civic_cbshing_alien_message
+				value = civic_cbshing_eco_disaster
+				value = civic_cbshing_eco_shift
+				#value = civic_cbshing_eternal_leader
+				value = civic_cbshing_nuclear_vault
+				#value = civic_cbshing_nuked_start
+				value = civic_cbshing_nuclear_mutation
+				value = civic_cbshing_voidborne
+				
+				#value = civic_cbshing_codominant_mechanists
+				#value = civic_cbshing_syncretic_mechanists
+				#value = civic_cbshing_habitat_life
+				#value = civic_cbshing_ringborne
+				#value = civic_cbshing_gaia_world
+				#value = civic_cbshing_dyson_sphere
+			}
+		}
+	}
+	random_weight = {
+		base = 0
+		modifier = {
+			# civic has no effect after galaxy generation, disable for random generation
+			factor = 0
+			has_global_flag = game_started
+		}
+	}
+	modifier = { 
+		planet_clear_blocker_cost_mult = -0.25 
+		planet_colony_development_speed_mult = 0.10
+		#pop_environment_tolerance = 0.10
+	}
+
+	#description = "civic_tooltip_cbshing_lost_colony_effects"
+	#used when starting a new game to initialize home planet
+	#see cbshing_origins_colony_start.txt
+}
+
+civic_cbshing_alien_message = {
+	modification = no
+	potential = { ethics = { NOT = { value = ethic_gestalt_consciousness } } }
+	possible = {
+		ethics = {
+			OR = {
+				#text = civic_tooltip_not_xenophobe
+				#value = ethic_xenophobe
+				#value = ethic_fanatic_xenophobe
+				text = civic_tooltip_xenophile
+				value = ethic_xenophile
+				value = ethic_fanatic_xenophile
+			}
+		}
+	
+		civics = {
+			NOR = {
+				value = civic_syncretic_evolution
+				#value = civic_agrarian_idyll
+				#value = civic_post_apocalyptic
+				#value = civic_life_seeded
+				
+				value = civic_cbshing_codominant_evolution
+				value = civic_cbshing_lost_colony
+				#value = civic_cbshing_eco_shift
+				#value = civic_cbshing_eternal_leader
+				value = civic_cbshing_nuclear_vault
+				#value = civic_cbshing_nuked_start
+				#value = civic_cbshing_nuclear_mutation
+				#value = civic_cbshing_voidborne
+				
+				#value = civic_cbshing_codominant_mechanists
+				#value = civic_cbshing_syncretic_mechanists
+				#value = civic_cbshing_habitat_life
+				#value = civic_cbshing_ringborne
+				#value = civic_cbshing_gaia_world
+				#value = civic_cbshing_dyson_sphere
+			}
+		}
+	}
+	random_weight = {
+		base = 0.1
+		modifier = {
+			# civic has no effect after galaxy generation, disable for random generation
+			factor = 0
+			has_global_flag = game_started
+		}
+	}
+	modifier = { 
+		#pop_ethic_xenophile_attraction_mult = 0.5 
+		#country_sensor_range_mult = 0.25
+		ship_sensor_range_add = 1
+		pop_other_species_owner_happiness = 0.05
+	}
+
+	#description = "civic_tooltip_cbshing_alien_message_effects"
+	#used when starting a new game to initialize home planet
+	#see cbshing_origins_alien_message_start.txt
+}
+
+civic_cbshing_eco_disaster = {
+	modification = no
+	potential = { ethics = { NOT = { value = ethic_gestalt_consciousness } } }
+	possible = {
+		civics = {
+			NOR = {
+				#value = civic_syncretic_evolution
+				value = civic_agrarian_idyll
+				value = civic_post_apocalyptic
+				value = civic_life_seeded
+				
+				#value = civic_cbshing_codominant_evolution
+				value = civic_cbshing_lost_colony
+				#value = civic_cbshing_alien_message
+				value = civic_cbshing_eco_shift
+				#value = civic_cbshing_eternal_leader
+				value = civic_cbshing_nuclear_vault
+				#value = civic_cbshing_nuked_start
+				value = civic_cbshing_nuclear_mutation
+				value = civic_cbshing_voidborne
+				
+				#value = civic_cbshing_codominant_mechanists
+				#value = civic_cbshing_syncretic_mechanists
+				#value = civic_cbshing_habitat_life
+				#value = civic_cbshing_ringborne
+				#value = civic_cbshing_gaia_world
+				#value = civic_cbshing_dyson_sphere
+			}
+		}
+	}
+	random_weight = {
+		base = 0.1
+		modifier = {
+			# civic has no effect after galaxy generation, disable for random generation
+			factor = 0
+			has_global_flag = game_started
+		}
+	}
+	modifier = { 
+		pop_migration_speed = 0.25
+		#country_society_tech_research_speed = 0.25
+		category_new_worlds_research_speed_mult = 0.2
+		#shipsize_colonizer_build_cost_mult = -0.3
+	}
+
+	#description = "civic_tooltip_cbshing_eco_disaster_effects"
+	#used when starting a new game to initialize home planet
+	#see cbshing_origins_eco_disaster_event.txt
+}
+
+civic_cbshing_eco_shift = {
+	modification = no
+	potential = { ethics = { NOT = { value = ethic_gestalt_consciousness } } }
+	possible = {
+		civics = {
+			NOR = {
+				#value = civic_syncretic_evolution
+				value = civic_agrarian_idyll
+				value = civic_post_apocalyptic
+				value = civic_life_seeded
+				
+				#value = civic_cbshing_codominant_evolution
+				value = civic_cbshing_lost_colony
+				#value = civic_cbshing_alien_message
+				value = civic_cbshing_eco_disaster
+				#value = civic_cbshing_eternal_leader
+				value = civic_cbshing_nuclear_vault
+				#value = civic_cbshing_nuked_start
+				value = civic_cbshing_nuclear_mutation
+				value = civic_cbshing_voidborne
+				
+				#value = civic_cbshing_codominant_mechanists
+				#value = civic_cbshing_syncretic_mechanists
+				#value = civic_cbshing_habitat_life
+				#value = civic_cbshing_ringborne
+				#value = civic_cbshing_gaia_world
+				#value = civic_cbshing_dyson_sphere
+			}
+		}
+	}
+	random_weight = {
+		base = 0.2
+		modifier = {
+			# civic has no effect after galaxy generation, disable for random generation
+			factor = 0
+			has_global_flag = game_started
+		}
+	}
+	modifier = { 
+		pop_environment_tolerance = 0.05 
+		edict_length_mult = 0.10
+		#planet_colony_development_speed_mult = 0.25
+	}
+
+	#description = "civic_tooltip_cbshing_eco_shift_effects"
+	#used when starting a new game to initialize home planet
+	#see cbshing_origins_eco_shift_start.txt
+}
+
+civic_cbshing_eternal_leader = {
+	modification = no
+	playable = { host_has_dlc = "Utopia" }
+	potential = { ethics = { NOT = { value = ethic_gestalt_consciousness } } }
+	possible = {
+		authority = {
+			OR = {
+				text = civic_tooltip_dic_imp
+				value = auth_dictatorial
+				value = auth_imperial
+			}
+		}
+		ethics = {
+			OR = {
+				text = civic_tooltip_cbshing_materialist_or_spiritualist
+				#text = civic_tooltip_materialist
+				value = ethic_materialist
+				value = ethic_fanatic_materialist
+				#text = civic_tooltip_spiritualist
+				value = ethic_spiritualist
+				value = ethic_fanatic_spiritualist
+			}
+		}
+	
+		civics = {
+			NOR = {
+				#value = civic_agrarian_idyll
+				
+				#value = civic_cbshing_lost_colony
+				#value = civic_cbshing_alien_message
+				#value = civic_cbshing_eco_disaster
+				#value = civic_cbshing_eco_shift
+				#value = civic_cbshing_nuclear_vault
+				#value = civic_cbshing_nuked_start
+				#value = civic_cbshing_nuclear_mutation
+				#value = civic_cbshing_voidborne
+				
+				#value = civic_cbshing_habitat_life
+				#value = civic_cbshing_ringborne
+				#value = civic_cbshing_gaia_world
+				#value = civic_cbshing_dyson_sphere
+				#value = civic_cbshing_latent_psionic
+				#value = civic_cbshing_cybernetic
+				#value = civic_cbshing_ascension_theory
+			}
+		}
+	}
+	random_weight = {
+		base = 0.1
+		modifier = {
+			# civic has no effect after galaxy generation, disable for random generation
+			factor = 0
+			has_global_flag = game_started
+		}
+	}
+	modifier = { 
+		#edict_length_mult = 0.10
+	}
+
+	description = "civic_tooltip_cbshing_eternal_leader_effects"
+	#used when starting a new game to make leader immortal
+	#see cbshing_origins_eternal_leader_start.txt
+}
+
+civic_cbshing_nuclear_vault = {
+	playable = { host_has_dlc = "Apocalypse" }
+	modification = no
+	#potential = { ethics = { NOT = { value = ethic_gestalt_consciousness } } }
+	potential = { authority = { NOT = { value = auth_machine_intelligence } } }
+	possible = {
+		civics = {
+			NOR = {
+				#value = civic_syncretic_evolution
+				value = civic_agrarian_idyll
+				value = civic_post_apocalyptic
+				value = civic_life_seeded
+				
+				#value = civic_cbshing_codominant_evolution
+				value = civic_cbshing_lost_colony
+				#value = civic_cbshing_alien_message
+				value = civic_cbshing_eco_disaster
+				value = civic_cbshing_eco_shift
+				#value = civic_cbshing_nuked_start
+				value = civic_cbshing_nuclear_mutation
+				value = civic_cbshing_voidborne
+				
+				#value = civic_cbshing_codominant_mechanists
+				#value = civic_cbshing_syncretic_mechanists
+				#value = civic_cbshing_habitat_life
+				#value = civic_cbshing_ringborne
+				#value = civic_cbshing_gaia_world
+				#value = civic_cbshing_dyson_sphere
+			}
+		}
+	}
+	random_weight = {
+		base = 0.2
+		modifier = {
+			factor = 0
+			NOT = { host_has_dlc = "Apocalypse" }
+		}
+		modifier = {
+			# civic has no effect after galaxy generation, disable for random generation
+			factor = 0
+			has_global_flag = game_started
+		}
+	}
+	#modifier = { pop_environment_tolerance = 0.10 }
+
+	description = "civic_tooltip_cbshing_nuclear_vault_effects"
+	#used when starting a new game to initialize home planet
+	#see cbshing_origins_nuclear_starts.txt
+}
+
+#civic_cbshing_nuked_start = {
+#	modification = no
+#	potential = { authority = { value = auth_machine_intelligence } } 
+#	possible = {
+#		civics = {
+#			NOR = {
+#				value = civic_machine_servitor
+#				value = civic_machine_assimilator
+#			}
+#		}
+#	}
+#	random_weight = {
+#		base = 1
+#		modifier = {
+#			# civic has no effect after galaxy generation, disable for random generation
+#			factor = 0
+#			has_global_flag = game_started
+#		}
+#	}
+#	modifier = { pop_consumer_goods_mult = -0.10 }
+#
+#	#description = "civic_tooltip_cbshing_nuclear_vault_effects"
+#	#used when starting a new game to initialize home planet
+#	#see cbshing_origins_nuclear_start.txt
+#}
+
+civic_cbshing_nuclear_mutation = {
+	playable = { host_has_dlc = "Apocalypse" }
+	modification = no
+	potential = { authority = { NOT = { value = auth_machine_intelligence } } }
+	possible = {
+		civics = {
+			NOR = {
+				#value = civic_syncretic_evolution
+				value = civic_agrarian_idyll
+				value = civic_post_apocalyptic
+				value = civic_life_seeded
+				
+				#value = civic_cbshing_codominant_evolution
+				value = civic_cbshing_lost_colony
+				#value = civic_cbshing_alien_message
+				value = civic_cbshing_eco_disaster
+				value = civic_cbshing_eco_shift
+				value = civic_cbshing_nuclear_vault
+				#value = civic_cbshing_nuked_start
+				value = civic_cbshing_voidborne
+				
+				#value = civic_cbshing_codominant_mechanists
+				#value = civic_cbshing_syncretic_mechanists
+				#value = civic_cbshing_habitat_life
+				#value = civic_cbshing_ringborne
+				#value = civic_cbshing_gaia_world
+				#value = civic_cbshing_dyson_sphere
+			}
+		}
+	}
+	random_weight = {
+		base = 0.8
+		modifier = {
+			factor = 0
+			NOT = { host_has_dlc = "Apocalypse" }
+		}
+		modifier = {
+			# civic has no effect after galaxy generation, disable for random generation
+			factor = 0
+			has_global_flag = game_started
+		}
+	}
+	#modifier = { pop_environment_tolerance = 0.10 }
+
+	description = "civic_tooltip_cbshing_nuclear_mutation_effects"
+	#used when starting a new game to initialize home planet
+	#see cbshing_origins_nuclear_starts.txt
+}
+
+civic_cbshing_voidborne = {
+	playable = { 
+		host_has_dlc = "Utopia" 
+		#host_has_dlc = "Apocalypse"
+	}
+	modification = no
+	potential = { authority = { NOT = { value = auth_machine_intelligence } } }
+	possible = {
+		civics = {
+			NOR = {
+				value = civic_syncretic_evolution
+				value = civic_agrarian_idyll
+				value = civic_post_apocalyptic
+				value = civic_life_seeded
+				
+				value = civic_cbshing_codominant_evolution
+				value = civic_cbshing_lost_colony
+				#value = civic_cbshing_alien_message
+				value = civic_cbshing_eco_disaster
+				value = civic_cbshing_eco_shift
+				value = civic_cbshing_nuclear_vault
+				#value = civic_cbshing_nuked_start
+				value = civic_cbshing_nuclear_mutation
+				
+				#value = civic_cbshing_codominant_mechanists
+				#value = civic_cbshing_syncretic_mechanists
+				#value = civic_cbshing_habitat_life
+				#value = civic_cbshing_ringborne
+				#value = civic_cbshing_gaia_world
+				#value = civic_cbshing_dyson_sphere
+			}
+		}
+	}
+	random_weight = {
+		base = 0.2
+		modifier = {
+			factor = 0
+			NOT = { host_has_dlc = "Utopia" }
+		}
+		modifier = {
+			# civic has no effect after galaxy generation, disable for random generation
+			factor = 0
+			has_global_flag = game_started
+		}
+	}
+	modifier = { 
+		#megastructure_build_speed_mult = 0.3
+		#country_starbase_capacity_add = 2
+		#country_starbase_influence_cost_mult = -0.10
+		#mod_megastructure_build_cost_mult = -0.3 
+		#starbase_upgrade_cost_mult = -0.05
+		#country_ship_upgrade_cost_mult = -0.1
+		#shipsize_corvette_build_cost_mult = -0.1
+		#shipsize_destroyer_build_cost_mult = -0.1
+		#shipsize_cruiser_build_cost_mult = -0.1
+		#shipsize_battleship_build_cost_mult = -0.1
+		#Built for Space
+		starbase_module_build_cost_mult = -0.25
+		shipsize_research_station_build_cost_mult = -0.25
+		shipsize_mining_station_build_cost_mult = -0.25
+		shipsize_starbase_outpost_build_cost_mult = -0.25
+		shipsize_military_station_small_build_cost_mult = -0.25
+		starbase_shipyard_build_cost_mult = -0.25
+		shipsize_colonizer_build_cost_mult = -0.25
+		shipsize_constructor_build_cost_mult = -0.25
+		shipsize_science_build_cost_mult = -0.25
+		ship_upkeep_mult = -0.25
+		country_starbase_upkeep_mult = -0.25
+		#Space Travelers
+		ship_speed_mult = 0.1
+		army_damage_mult = -0.2
+	}
+	
+	description = "civic_tooltip_cbshing_voidborne_effects"
+	#used when starting a new game to initialize home planet
+	#see cbshing_origins_voidborne_start.txt
+}
+
+civic_cbshing_robo_nuked_start = {
+	icon = "gfx/interface/icons/governments/civics/civic_cbshing_nuked_start.dds"
+	playable = { 
+		host_has_dlc = "Apocalypse" 
+		host_has_dlc = "Synthetic Dawn Story Pack"
+	}
+	modification = no
+	potential = { authority = { value = auth_machine_intelligence } }
+	possible = {
+		civics = {
+			NOR = {
+				value = civic_machine_servitor
+				value = civic_machine_assimilator
+				value = civic_machine_terminator
+				
+				#value = civic_cbshing_habitat_life
+				#value = civic_cbshing_ringborne
+				#value = civic_cbshing_gaia_world
+			}
+		}
+	}
+	random_weight = {
+		base = 0.1
+		modifier = {
+			factor = 0
+			NOT = { host_has_dlc = "Apocalypse" }
+		}
+		modifier = {
+			factor = 0
+			NOT = { host_has_dlc = "Synthetic Dawn Story Pack" }
+		}
+		modifier = {
+			# civic has no effect after galaxy generation, disable for random generation
+			factor = 0
+			has_global_flag = game_started
+		}
+	}
+	modifier = { pop_consumer_goods_mult = -0.10 }
+
+	description = "civic_tooltip_cbshing_robo_nuked_start_effects"
+	#used when starting a new game to initialize home planet
+	#see cbshing_origins_nuclear_start.txt
+}
+
+civic_cbshing_machine_world = {
+	playable = { host_has_dlc = "Synthetic Dawn Story Pack" }
+	potential = { authority = { value = auth_machine_intelligence } }
+	possible = {
+		civics = {
+			NOR = {
+				value = civic_machine_servitor
+				value = civic_machine_assimilator
+			}
+		}
+	}
+	modification = no
+	random_weight = {
+		base = 0.1
+		modifier = {
+			factor = 0
+			NOT = { host_has_dlc = "Synthetic Dawn Story Pack" }
+		}
+		modifier = {
+			# civic has no effect after galaxy generation, disable for random generation
+			factor = 0
+			has_global_flag = game_started
+		}
+	}
+	
+	#description = "civic_tooltip_cbshing_machine_world_effects"
+	#used when starting a new game to initialize home planet
+	#see cbshing_origins_machine_world_start.txt
+}

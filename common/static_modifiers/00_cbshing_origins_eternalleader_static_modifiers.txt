@@ -1,0 +1,48 @@
+# All global modifiers are here.  They are applied from certain game-features.
+#
+# Effects are fully scriptable here.
+
+# The names can NOT be removed or changed since the code references them
+
+##########################################################################
+# Pop Modifiers
+##########################################################################
+
+cbshing_origins_eternal_leader_religion_suppressed = {
+	pop_ethic_spiritualist_attraction_mult = -1
+	all_technology_research_speed = 0.05
+}
+
+cbshing_origins_eternal_leader_religion_encouraged = {
+	pop_ethic_spiritualist_attraction_mult = 0.5
+	country_resource_unity_mult = 0.05
+	
+}
+
+cbshing_origins_eternal_leader_fight_crisis = {
+	damage_vs_country_type_swarm_mult = 0.3
+	damage_vs_country_type_extradimensional_mult = 0.3
+	damage_vs_country_type_extradimensional_2_mult = 0.3
+	damage_vs_country_type_extradimensional_3_mult = 0.3
+}
+
+cbshing_origins_eternal_leader_turtle = {
+	ship_shield_mult = 0.5
+	ship_evasion_mult = 0.2
+	ship_hull_regen_add_perc = 0.1
+	ship_armor_regen_add_perc = 0.1
+}
+
+cbshing_origins_eternal_leader_immortality_potion = {
+	leader_age = 500 
+}
+
+cbshing_origins_eternal_leader_immortality_potion_2 = {
+	leader_age = 500 
+	species_leader_exp_gain = 0.25 
+}
+
+cbshing_origins_eternal_leader_unrest = {
+	leader_age = 500 
+	species_leader_exp_gain = 0.25 
+}

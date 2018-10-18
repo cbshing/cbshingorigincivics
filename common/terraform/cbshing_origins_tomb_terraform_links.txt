@@ -1,0 +1,288 @@
+@gaiaCost = 10000
+@gaiaTime = 7200
+
+@machineCost = 10000
+@machineTime = 7200
+
+################
+## Tomb World ##
+################
+
+terraform_link = {
+	to = "pc_nuked"
+	from = "pc_desert"
+	
+	energy = 2000
+	duration = 3600
+	
+	condition = {
+		has_technology = "tech_cbshing_nuclear_terraforming"
+		#is_cbshing_nuclear_mutation_country = yes
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			factor = 1
+			has_trait = "trait_pc_nuked_preference"
+			#is_cbshing_nuclear_mutation_country = yes
+		}
+	}
+}
+
+terraform_link = {
+	to = "pc_nuked"
+	from = "pc_arid"
+	
+	energy = 2000
+	duration = 3600
+	
+	condition = {
+		has_technology = "tech_cbshing_nuclear_terraforming"
+		#is_cbshing_nuclear_mutation_country = yes
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			factor = 1
+			has_trait = "trait_pc_nuked_preference"
+			#is_cbshing_nuclear_mutation_country = yes
+		}
+	}
+}
+
+terraform_link = {
+	to = "pc_nuked"
+	from = "pc_savannah"
+	
+	energy = 2000
+	duration = 3600
+	
+	condition = {
+		has_technology = "tech_cbshing_nuclear_terraforming"
+		#is_cbshing_nuclear_mutation_country = yes
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			factor = 1
+			has_trait = "trait_pc_nuked_preference"
+			#is_cbshing_nuclear_mutation_country = yes
+		}
+	}
+}
+
+terraform_link = {
+	to = "pc_nuked"
+	from = "pc_arctic"
+	
+	energy = 2000
+	duration = 3600
+	
+	condition = {
+		has_technology = "tech_cbshing_nuclear_terraforming"
+		#is_cbshing_nuclear_mutation_country = yes
+	}
+	
+	ai_weight = {
+		weight = 0
+		modifier = {
+			factor = 1
+			has_trait = "trait_pc_nuked_preference"
+			#is_cbshing_nuclear_mutation_country = yes
+		}
+	}
+}
+
+terraform_link = {
+	to = "pc_nuked"
+	from = "pc_tundra"
+	
+	energy = 2000
+	duration = 3600
+	
+	condition = {
+		has_technology = "tech_cbshing_nuclear_terraforming"
+		#is_cbshing_nuclear_mutation_country = yes
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			factor = 1
+			has_trait = "trait_pc_nuked_preference"
+			#is_cbshing_nuclear_mutation_country = yes
+		}
+	}
+}
+
+terraform_link = {
+	to = "pc_nuked"
+	from = "pc_alpine"
+	
+	energy = 2000
+	duration = 3600
+	
+	condition = {
+		has_technology = "tech_cbshing_nuclear_terraforming"
+		#is_cbshing_nuclear_mutation_country = yes
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			factor = 1
+			has_trait = "trait_pc_nuked_preference"
+			#is_cbshing_nuclear_mutation_country = yes
+		}
+	}
+}
+
+terraform_link = {
+	to = "pc_nuked"
+	from = "pc_continental"
+	
+	energy = 2000
+	duration = 3600
+	
+	condition = {
+		has_technology = "tech_cbshing_nuclear_terraforming"
+		#is_cbshing_nuclear_mutation_country = yes
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			factor = 1
+			has_trait = "trait_pc_nuked_preference"
+			#is_cbshing_nuclear_mutation_country = yes
+		}
+	}
+}
+
+
+terraform_link = {
+	to = "pc_nuked"
+	from = "pc_tropical"
+	
+	energy = 2000
+	duration = 3600
+	
+	condition = {
+		has_technology = "tech_cbshing_nuclear_terraforming"
+		#is_cbshing_nuclear_mutation_country = yes
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			factor = 1
+			has_trait = "trait_pc_nuked_preference"
+			#is_cbshing_nuclear_mutation_country = yes
+		}
+	}
+}
+
+terraform_link = {
+	to = "pc_nuked"
+	from = "pc_ocean"
+	
+	energy = 2000
+	duration = 3600
+	
+	condition = {
+		has_technology = "tech_cbshing_nuclear_terraforming"
+		#is_cbshing_nuclear_mutation_country = yes
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			factor = 1
+			has_trait = "trait_pc_nuked_preference"
+			#is_cbshing_nuclear_mutation_country = yes
+		}
+	}
+}
+
+terraform_link = {
+	from = "pc_barren"
+	to = "pc_nuked"
+	
+	energy = 10000
+	duration = 5400
+	
+	condition = {
+		has_technology = "tech_climate_restoration"
+		has_technology = "tech_cbshing_nuclear_terraforming"
+		from = { has_modifier = terraforming_candidate }
+		#is_cbshing_nuclear_mutation_country = yes
+	}
+	
+	effect = {
+		from = { remove_modifier = terraforming_candidate }
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			factor = 1
+			has_trait = "trait_pc_nuked_preference"
+			#is_cbshing_nuclear_mutation_country = yes
+		}
+	}
+}
+
+
+terraform_link = {
+	from = "pc_barren_cold"
+	to = "pc_nuked"
+	
+	energy = 15000
+	duration = 7200
+	
+	condition = {
+		has_technology = "tech_climate_restoration"
+		has_technology = "tech_cbshing_nuclear_terraforming"
+		from = { has_modifier = terraforming_candidate }
+		#is_cbshing_nuclear_mutation_country = yes
+	}
+	
+	effect = {
+		from = { remove_modifier = terraforming_candidate }
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			factor = 1
+			has_trait = "trait_pc_nuked_preference"
+			#is_cbshing_nuclear_mutation_country = yes
+		}
+	}
+}
+
+terraform_link = {
+	from = "pc_machine"
+	to = "pc_nuked"
+	
+	energy = @machineCost
+	duration = @machineTime
+	
+	potential = {
+		has_technology = "tech_climate_restoration"
+		has_technology = "tech_cbshing_nuclear_terraforming"
+		#is_cbshing_nuclear_mutation_country = yes
+	}
+	
+	ai_weight = {
+		weight = 0
+		modifier = {
+			factor = 5
+			has_trait = "trait_pc_nuked_preference"
+			#is_cbshing_nuclear_mutation_country = yes
+		}
+	}
+}

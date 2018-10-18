@@ -1,0 +1,41 @@
+namespace = cbshing_origins_colony_of_earth_start
+# by cbshing
+
+### Hidden Game Start Event
+# Checks if Earth exists, if not create an Earth for relevant countries.
+event = {
+    id = cbshing_origins_colony_of_earth_start.1
+    hide_window = yes
+    is_triggered_only = yes
+
+    immediate = {
+		#set homeworld to Earth for addon
+		every_country = {
+			limit = { 
+				is_cbshing_addon_origins_colony_of_earth_country = yes 
+				#NOT = { has_country_flag = country_homeworld_created }
+			}
+			
+			#give a custom start screen
+			set_country_flag = custom_start_screen
+			set_country_flag = "origins_earth_addon"
+			
+			owner_species = { save_event_target_as = origins_colony_species }
+			
+			if = {
+				limit = { is_cbshing_addon_origins_continental_earth_preference_country = yes }
+				origins_give_species_continental_preference = yes
+			}
+			
+			if = {
+				limit = { has_global_flag = origins_sol_system_used }
+				make_earth_this_species_home = yes
+				#else = {
+				#	set_country_flag = "origins_colony_sol"
+				#	country_event = { id = cbshing_origins_colony_start.4 } 
+				#	#make_earth_this_species_home = yes
+				#}
+			}
+		}
+    }
+}

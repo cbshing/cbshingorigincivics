@@ -1,0 +1,6 @@
+# Triggers when the game starts
+on_game_start_country = {
+	events = {
+		cbshing_origins_nuclear_start.1 # assign restore homeworld flag
+	}
+}

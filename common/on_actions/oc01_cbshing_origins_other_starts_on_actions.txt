@@ -1,0 +1,6 @@
+# Triggers when the game starts
+on_game_start_country = {
+	events = {
+		cbshing_origins_other_starts.1 # for other game start items
+	}
+}

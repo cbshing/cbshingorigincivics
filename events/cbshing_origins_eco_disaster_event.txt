@@ -1,0 +1,545 @@
+namespace = cbshing_origins_eco_disaster_event
+# by cbshing
+
+# Below sets up planet for disaster
+country_event = {
+	id = cbshing_origins_eco_disaster_event.1
+	title = "cbshing_origins_eco_disaster_event.1.name"
+	desc = "cbshing_origins_eco_disaster_event.1.desc"
+	picture = GFX_evt_arguing_senate
+	show_sound = event_factions
+	
+	location = ROOT
+	
+	trigger = {
+		is_cbshing_eco_disaster_country = yes
+		#is_ai = no
+	}
+	
+	is_triggered_only = yes
+	
+	immediate = { 
+		hidden_effect = {
+			#planet_event = { id = cbshing_origins_eco_disaster_event.2 days = 18000 random = 25 }
+			set_country_flag = impending_eco_disaster_country
+			random_owned_planet = {
+				limit = { is_homeworld = yes }
+				set_planet_flag = impending_eco_disaster_planet
+			}
+		}
+	}
+	
+	option = {
+		name = "cbshing_origins_eco_disaster_event.1.a"
+		begin_event_chain = {
+			event_chain = "cbshing_origins_eco_disaster_event_chain"
+			target = ROOT
+		}
+		hidden_effect = {
+			#set_country_flag = impending_eco_disaster
+			#create_point_of_interest = {
+			#	id = cbshing_origins_eco_disaster_poi.1
+			#	name = "cbshing_origins_eco_disaster_1_poi"
+			#	desc = cbshing_origins_eco_disaster_1_desc
+			#	event_chain = cbshing_origins_eco_disaster_event_chain
+			#	location = home_planet
+			#}
+		}
+	}
+}
+
+event = {
+	id = cbshing_origins_eco_disaster_event.2
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	trigger = {
+		years_passed > 50
+		NOT = { has_global_flag = all_planets_disaster_ended }
+	}
+
+	immediate = {
+		random_planet = {
+			limit = { 
+				has_planet_flag = impending_eco_disaster_planet 
+				NOT = { has_planet_flag = eco_disaster_planet_ended }
+				NOT = { has_planet_flag = eco_disaster_planet_near_ending }
+			}
+
+			random_list = {
+				20 = { 
+					add_modifier = {
+						modifier = "hazardous_weather"
+						days = 3600
+					}
+					set_planet_flag = eco_disaster_planet_flag_01
+					random_tile = {
+						limit = { has_pop = yes }
+						kill_pop = yes
+					}
+					owner = { country_event = { id = cbshing_origins_eco_disaster_event.11 } }
+				}
+				20 = {
+					add_modifier = {
+						modifier = "unstable_tectonics"
+						days = 3600
+					}
+					set_planet_flag = eco_disaster_planet_flag_02
+					random_tile = {
+						limit = { has_building = yes }
+						set_ruined = yes
+					}
+					random_tile = {
+						limit = {
+							has_blocker = no
+							has_grown_pop = no
+							has_building = no
+							has_building_construction = no
+						}
+						set_blocker = "tb_sinkhole_subterraneans"
+					}
+					owner = { country_event = { id = cbshing_origins_eco_disaster_event.12 } }
+				}
+				20 = {
+					add_modifier = {
+						modifier = "wild_storms"
+						days = 3600
+					}
+					set_planet_flag = eco_disaster_planet_flag_03
+					random_tile = {
+						limit = { has_building = yes }
+						set_ruined = yes
+					}
+					owner = { country_event = { id = cbshing_origins_eco_disaster_event.13 } }
+				}
+				20 = {
+					add_modifier = {
+						modifier = "bleak_planet"
+						days = 3600
+					}
+					set_planet_flag = eco_disaster_planet_flag_04
+					owner = { country_event = { id = cbshing_origins_eco_disaster_event.14 } }
+				}
+				10 = {
+					add_modifier = {
+						modifier = "lush_planet"
+						days = 3600
+					}
+					set_planet_flag = eco_disaster_planet_flag_05
+					owner = { country_event = { id = cbshing_origins_eco_disaster_event.15 } }
+				}
+				10 = { }
+			}
+		}
+	}
+}
+
+event = {
+	id = cbshing_origins_eco_disaster_event.3
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	trigger = {
+		years_passed > 100
+		NOT = { has_global_flag = all_planets_disaster_ended }
+	}
+
+	immediate = {
+		random_planet = {
+			limit = {
+				has_planet_flag = eco_disaster_planet_flag_01
+				has_planet_flag = eco_disaster_planet_flag_02
+				has_planet_flag = eco_disaster_planet_flag_03
+				has_planet_flag = eco_disaster_planet_flag_04	
+				has_planet_flag = eco_disaster_planet_flag_05
+				NOT = { has_planet_flag = eco_disaster_planet_ended }
+				NOT = { has_planet_flag = eco_disaster_planet_near_ending }
+			}
+			remove_planet_flag = eco_disaster_planet_flag_01
+			remove_planet_flag = eco_disaster_planet_flag_02
+			remove_planet_flag = eco_disaster_planet_flag_03
+			remove_planet_flag = eco_disaster_planet_flag_04
+			remove_planet_flag = eco_disaster_planet_flag_05
+			remove_planet_flag = impending_eco_disaster_planet
+			set_planet_flag = eco_disaster_planet_near_ending
+			
+			#planet_event = { id = cbshing_origins_eco_disaster_event.5 days = 3600 random = 360 }
+			planet_event = { id = cbshing_origins_eco_disaster_event.5 days = 36 random = 36 }
+			owner = { country_event = { id = cbshing_origins_eco_disaster_event.4 } }
+		}
+	}
+}
+
+country_event = {
+	id = cbshing_origins_eco_disaster_event.4
+	title = "cbshing_origins_eco_disaster_event.4.name"
+	desc = "cbshing_origins_eco_disaster_event.4.desc"
+	picture = GFX_evt_galactic_senate
+	show_sound = event_factions
+	location = ROOT
+	
+	trigger = {
+		is_cbshing_eco_disaster_country = yes
+		NOT = { has_country_flag = eco_disaster_planet_ended_country }
+		NOT = { has_country_flag = eco_disaster_planet_ending_annoucement_country }
+		is_ai = no
+	}
+	
+	is_triggered_only = yes
+	
+	immediate = { 
+	}
+	
+	option = {
+		name = "cbshing_origins_eco_disaster_event.4.a"
+		add_modifier = { modifier = "cbshing_origins_eco_disaster_annoucement_secret" }
+		set_country_flag = eco_disaster_planet_ending_annoucement_country 
+		#custom_tooltip = cbshing_origins_eco_disaster_event.4.a.tooltip
+	}
+	option = {
+		name = "cbshing_origins_eco_disaster_event.4.b"
+		add_modifier = { modifier = "cbshing_origins_eco_disaster_annoucement_open" }
+		set_country_flag = eco_disaster_planet_ending_annoucement_country 
+		#custom_tooltip = cbshing_origins_eco_disaster_event.4.b.tooltip
+	}
+}
+
+planet_event = {
+	id = cbshing_origins_eco_disaster_event.5
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		if = { 
+			limit = { 
+				has_planet_flag = eco_disaster_planet_near_ending
+				NOT = { has_planet_flag = eco_disaster_planet_ended }
+			}
+			remove_planet_flag = eco_disaster_planet_near_ending
+			set_planet_flag = eco_disaster_planet_ended
+			#remove_modifier = { modifier = hazardous_weather }
+			#remove_modifier = { modifier = unstable_tectonics }
+			#remove_modifier = { modifier = wild_storms }
+			#remove_modifier = { modifier = bleak_planet }
+			#remove_modifier = { modifier = lush_planet }
+			random_list = {
+				34 = { change_pc = pc_frozen }
+				33 = { change_pc = pc_molten }
+				33 = { change_pc = pc_toxic }
+			}
+			owner = { country_event = { id = cbshing_origins_eco_disaster_event.6 } }
+		}
+	}
+}
+
+country_event = {
+	id = cbshing_origins_eco_disaster_event.6
+	title = "cbshing_origins_eco_disaster_event.6.name"
+	desc = "cbshing_origins_eco_disaster_event.6.desc"
+	picture = GFX_evt_dead_city
+	show_sound = event_ghost_town
+	location = ROOT
+	
+	trigger = {
+		is_cbshing_eco_disaster_country = yes
+		NOT = { has_country_flag = eco_disaster_planet_ended_country }
+		#is_ai = no
+	}
+	
+	is_triggered_only = yes
+	
+	immediate = { 
+	}
+	
+	option = {
+		name = "cbshing_origins_eco_disaster_event.6.a"
+		add_modifier = { modifier = "cbshing_origins_eco_disaster_homeworld_lost" }
+		set_country_flag = eco_disaster_planet_ended_country 
+		if = {
+			limit = { has_event_chain = cbshing_origins_eco_disaster_event_chain }
+			end_event_chain = "cbshing_origins_eco_disaster_event_chain" 
+		}
+	}
+}
+
+country_event = {
+	id = cbshing_origins_eco_disaster_event.7
+	title = "cbshing_origins_eco_disaster_event.7.name"
+	desc = "cbshing_origins_eco_disaster_event.7.desc"
+	picture = GFX_evt_ship_in_orbit
+	show_sound = event_scanner
+	location = ROOT
+	
+	trigger = {
+		is_cbshing_eco_disaster_country = yes
+		has_technology = tech_climate_restoration
+		NOT = { has_country_flag = eco_disaster_planet_ended_country }
+		NOT = { has_country_flag = eco_disaster_tech_researched_flag }
+	}
+	
+	#is_triggered_only = yes
+	mean_time_to_happen  { days = 30 } 
+	
+	immediate = {
+		set_country_flag = eco_disaster_tech_researched_flag
+		random_owned_planet = {
+			limit = { 
+				OR = {
+					has_planet_flag = impending_eco_disaster_planet 
+					has_planet_flag = eco_disaster_planet_near_ending 
+				}
+				NOT = { has_planet_flag = eco_disaster_planet_ended }
+				is_homeworld = yes
+			}
+			enable_special_project = {
+				name = "STABILIZE_HOMEWORLD"
+				location = this
+				owner = root
+			}
+		}
+	}
+	
+	option = {
+		name = "cbshing_origins_eco_disaster_event.7.a"
+	}
+}
+
+ship_event = {
+	id = cbshing_origins_eco_disaster_event.8
+	title = "cbshing_origins_eco_disaster_event.8.name"
+	desc = "cbshing_origins_eco_disaster_event.8.desc"
+	picture = GFX_evt_animal_wildlife
+	show_sound = event_celebration
+	location = ROOT
+	
+	is_triggered_only = yes
+	
+	immediate = { 
+	}
+	
+	option = {
+		name = "cbshing_origins_eco_disaster_event.8.a"
+		owner = {
+			random_owned_planet = {
+				limit = { 
+					OR = {
+						has_planet_flag = impending_eco_disaster_planet 
+						has_planet_flag = eco_disaster_planet_near_ending 
+					}
+					NOT = { has_planet_flag = eco_disaster_planet_ended }
+					is_homeworld = yes
+				}
+				remove_planet_flag = eco_disaster_planet_flag_01
+				remove_planet_flag = eco_disaster_planet_flag_02
+				remove_planet_flag = eco_disaster_planet_flag_03
+				remove_planet_flag = eco_disaster_planet_flag_04
+				remove_planet_flag = eco_disaster_planet_flag_05
+				remove_planet_flag = impending_eco_disaster_planet
+				remove_planet_flag = eco_disaster_planet_near_ending
+				set_planet_flag = eco_disaster_planet_ended
+			}
+			add_event_chain_counter = { 
+				event_chain = "cbshing_origins_eco_disaster_event_chain" 
+				counter = "stabilization_complete" 
+				amount = 1 
+			}
+			if = {
+				limit = { has_event_chain = cbshing_origins_eco_disaster_event_chain }
+				end_event_chain = "cbshing_origins_eco_disaster_event_chain" 
+			}
+			add_modifier = { modifier = "cbshing_origins_eco_disaster_homeworld_stabilized" }
+			add_monthly_resource_mult = {
+				resource = unity
+				value = 120
+				min = 240
+				max = 9999
+			}
+			add_monthly_resource_mult = {
+				resource = influence
+				value = 18
+				min = 125
+				max = 250
+			}	
+			remove_country_flag = impending_eco_disaster_country
+			set_country_flag = eco_disaster_planet_ended_country 
+		}
+	}
+}
+
+country_event = {
+	id = cbshing_origins_eco_disaster_event.11
+	title = "cbshing_origins_eco_disaster_event.11.name"
+	desc = "cbshing_origins_eco_disaster_event.11.desc"
+	picture = GFX_evt_burning_settlement
+	show_sound = event_air_raid_siren
+	location = ROOT
+	
+	trigger = {
+		is_cbshing_eco_disaster_country = yes
+		is_ai = no
+	}
+	
+	is_triggered_only = yes
+	
+	immediate = { 
+	}
+	
+	option = {
+		name = "cbshing_origins_eco_disaster_event.11.a"
+	}
+	option = {
+		name = "cbshing_origins_eco_disaster_event.11.b"
+		#custom_tooltip = cbshing_origins_eco_disaster_event.11.b.tooltip
+		add_energy = -200
+		random_owned_planet = {
+			limit = { 
+				OR = {
+					has_planet_flag = impending_eco_disaster_planet 
+					has_planet_flag = eco_disaster_planet_near_ending 
+				}
+				NOT = { has_planet_flag = eco_disaster_planet_ended }
+				is_homeworld = yes
+			}
+			add_modifier = { modifier = "cbshing_origins_eco_disaster_relief" days = 1800 } 
+		}
+	}
+}
+country_event = {
+	id = cbshing_origins_eco_disaster_event.12
+	title = "cbshing_origins_eco_disaster_event.12.name"
+	desc = "cbshing_origins_eco_disaster_event.12.desc"
+	picture = GFX_evt_underground_civilization
+	show_sound = event_structural_collapse
+	location = ROOT
+	
+	trigger = {
+		is_cbshing_eco_disaster_country = yes
+		is_ai = no
+	}
+	
+	is_triggered_only = yes
+	
+	immediate = { 
+	}
+	
+	option = {
+		name = "cbshing_origins_eco_disaster_event.11.a"
+	}
+	option = {
+		name = "cbshing_origins_eco_disaster_event.11.b"
+		#custom_tooltip = cbshing_origins_eco_disaster_event.11.b.tooltip
+		add_energy = -200
+		random_owned_planet = {
+			limit = { 
+				OR = {
+					has_planet_flag = impending_eco_disaster_planet 
+					has_planet_flag = eco_disaster_planet_near_ending 
+				}
+				NOT = { has_planet_flag = eco_disaster_planet_ended }
+				is_homeworld = yes
+			}
+			add_modifier = { modifier = "cbshing_origins_eco_disaster_relief" days = 1800 } 
+		}
+	}
+}
+country_event = {
+	id = cbshing_origins_eco_disaster_event.13
+	title = "cbshing_origins_eco_disaster_event.13.name"
+	desc = "cbshing_origins_eco_disaster_event.13.desc"
+	picture = GFX_evt_alien_nature
+	show_sound = event_air_raid_siren
+	location = ROOT
+	
+	trigger = {
+		is_cbshing_eco_disaster_country = yes
+		is_ai = no
+	}
+	
+	is_triggered_only = yes
+	
+	immediate = { 
+	}
+	
+	option = {
+		name = "cbshing_origins_eco_disaster_event.11.a"
+	}
+	option = {
+		name = "cbshing_origins_eco_disaster_event.11.b"
+		#custom_tooltip = cbshing_origins_eco_disaster_event.11.b.tooltip
+		add_energy = -200
+		random_owned_planet = {
+			limit = { 
+				OR = {
+					has_planet_flag = impending_eco_disaster_planet 
+					has_planet_flag = eco_disaster_planet_near_ending 
+				}
+				NOT = { has_planet_flag = eco_disaster_planet_ended }
+				is_homeworld = yes
+			}
+			add_modifier = { modifier = "cbshing_origins_eco_disaster_relief" days = 1800 } 
+		}
+	}
+}
+country_event = {
+	id = cbshing_origins_eco_disaster_event.14
+	title = "cbshing_origins_eco_disaster_event.14.name"
+	desc = "cbshing_origins_eco_disaster_event.14.desc"
+	picture = GFX_evt_underground_civilization
+	show_sound = event_ghost_town
+	location = ROOT
+	
+	trigger = {
+		is_cbshing_eco_disaster_country = yes
+		is_ai = no
+	}
+	
+	is_triggered_only = yes
+	
+	immediate = { 
+	}
+	
+	option = {
+		name = "cbshing_origins_eco_disaster_event.11.a"
+	}
+	option = {
+		name = "cbshing_origins_eco_disaster_event.11.b"
+		#custom_tooltip = cbshing_origins_eco_disaster_event.11.b.tooltip
+		add_energy = -200
+		random_owned_planet = {
+			limit = { 
+				OR = {
+					has_planet_flag = impending_eco_disaster_planet 
+					has_planet_flag = eco_disaster_planet_near_ending 
+				}
+				NOT = { has_planet_flag = eco_disaster_planet_ended }
+				is_homeworld = yes
+			}
+			add_modifier = { modifier = "cbshing_origins_eco_disaster_relief" days = 1800 } 
+		}
+	}
+}
+country_event = {
+	id = cbshing_origins_eco_disaster_event.15
+	title = "cbshing_origins_eco_disaster_event.15.name"
+	desc = "cbshing_origins_eco_disaster_event.15.desc"
+	picture = GFX_evt_animal_wildlife
+	show_sound = event_mystic_reveal
+	location = ROOT
+	
+	trigger = {
+		is_cbshing_eco_disaster_country = yes
+		is_ai = no
+	}
+	
+	is_triggered_only = yes
+	
+	immediate = { 
+	}
+	
+	option = {
+		name = "cbshing_origins_eco_disaster_event.15.a"
+	}
+}

@@ -1,0 +1,24 @@
+# All global modifiers are here.  They are applied from certain game-features.
+#
+# Effects are fully scriptable here.
+
+# The names can NOT be removed or changed since the code references them
+
+cbshing_origins_found_alien_message_origin = {
+	pop_happiness = 0.1
+}
+
+cbshing_origins_suppress_message = {
+	pop_happiness = -0.05
+	pop_government_ethic_attraction = -0.1
+	country_resource_influence_mult = 0.2
+	country_resource_society_research_mult = 0.1
+	#country_resource_minerals_mult = 0.3
+	#country_resource_food_mult = 0.3
+}
+
+cbshing_origins_reinforce_message = {
+	pop_happiness = 0.1
+	pop_government_ethic_attraction = 0.1
+	country_resource_unity_mult = 0.2
+}

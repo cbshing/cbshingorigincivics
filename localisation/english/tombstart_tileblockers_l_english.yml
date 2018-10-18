@@ -1,0 +1,12 @@
+﻿l_english:
+
+# Tombstart Customized Tile Blockers
+# Bomb crater has cheaper cost but same flavor text
+ tb_tombstart_bomb_crater:0 "£blocker  Bomb Crater"
+ tb_tombstart_bomb_crater_desc:0 "This massive crater was created by the detonation of a particularly devastating hydrogen bomb."
+# City Ruins has cheaper cost but same flavor text
+ tb_tombstart_city_ruins:0 "£blocker  City Ruins"
+ tb_tombstart_city_ruins_desc:0 "Once a great city, now just a metal boneyard stretching as far as the eye can see."
+# Radioactive Wasteland has cheaper cost but same flavor text
+ tb_tombstart_radioactive_wasteland:0 "£blocker  Radioactive Wasteland"
+ tb_tombstart_radioactive_wasteland_desc:0 "Few organisms can survive in this desolate, irradiated wasteland."

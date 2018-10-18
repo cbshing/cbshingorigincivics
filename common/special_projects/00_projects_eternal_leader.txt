@@ -1,0 +1,26 @@
+special_project = {
+	key = "ETERNAL_IMMORTALITY"
+	picture = GFX_evt_society_research
+	icon = "gfx/interface/icons/situation_log/situation_log_society.dds"
+	cost = 0
+	#days_to_research = 10
+	days_to_research = 1800
+	tech_department = society_technology
+	timelimit = -1
+	
+	event_scope = planet_event
+	
+	requirements = {
+		#shipclass_science_ship = 1
+		#leader = scientist
+		#skill = 3
+	}
+	
+	on_success = {
+		owner = { country_event = { id = cbshing_origins_eternal_leader_event.15 } }
+	}
+	
+	on_fail = {
+	}
+}
+

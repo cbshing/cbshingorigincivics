@@ -1,0 +1,23 @@
+special_project = {
+	key = "STABILIZE_HOMEWORLD"
+	event_chain = "cbshing_origins_eco_disaster_event_chain"
+	cost = 0
+	days_to_research = 360
+	tech_department = society_technology
+	
+	event_scope = ship_event
+	
+	requirements = {
+		shipclass_science_ship = 1
+		leader = scientist
+		skill = 3
+	}
+	
+	on_success = {
+		ship_event = { id = cbshing_origins_eco_disaster_event.8 }
+	}
+	
+	on_fail = {
+	}
+}
+

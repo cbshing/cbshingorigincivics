@@ -1,0 +1,6 @@
+# Triggers when the game starts
+on_game_start = {
+	events = {
+		cbshing_origins_colony_of_earth_start.1
+	}
+}

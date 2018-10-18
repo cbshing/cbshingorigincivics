@@ -1,0 +1,523 @@
+namespace = cbshing_origins_colony_start
+# by cbshing
+
+### Hidden Game Start Event
+### Colonies Master Event
+event = {
+	id = cbshing_origins_colony_start.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		# acknowledge sol is used
+		if = { 
+			limit = { any_system = { has_star_flag = sol } }
+			set_global_flag = origins_sol_system_used
+		}
+		
+		#begin colony setup
+		# check if there is an existing "homeworld" species for this country
+		# this is for the same species 
+		every_country = {
+			limit = {
+				is_cbshing_origins_colony_start_country = yes
+				NOT = { has_country_flag = country_homeworld_created }
+			}
+			#give a custom start screen
+			set_country_flag = custom_start_screen
+			
+			owner_species = { save_event_target_as = origins_colony_species }
+			
+			if = { 
+				limit = {
+					any_country = { 
+						is_valid_cbshing_colony_home_country = yes
+						any_owned_pop = { is_same_species = event_target:origins_colony_species }
+					}
+				}
+				set_country_flag = origins_found_viable_home
+				# home country
+				every_country = {
+					limit = { 
+						is_valid_cbshing_colony_home_country = yes
+						any_owned_pop = { is_same_species = event_target:origins_colony_species }
+					}
+					set_country_flag = "colony_home_empire"
+					country_event = { id = cbshing_origins_colony_start.2 days = -1 }
+				}
+			}			
+		}
+		# check if there is an existing "homeworld" species for this country
+		# this is for the same portrait 
+		#every_country = {
+			#limit = {
+			#	is_cbshing_origins_colony_start_country = yes
+			#	NOT = { has_country_flag = country_homeworld_created }
+			#}
+			#give a custom start screen
+			#set_country_flag = custom_start_screen
+			
+			#owner_species = { save_event_target_as = origins_colony_species }
+			
+			#if = { 
+			#	limit = {
+			#		any_country = { 
+			#			is_valid_cbshing_colony_home_country = yes
+			#			species_portrait = event_target:origins_colony_species
+			#			#species_portrait = human
+			#		}
+			#	}
+			#	# home country
+			#	every_country = {
+			#		limit = { 
+			#			is_valid_cbshing_colony_home_country = yes
+			#			species_portrait = event_target:origins_colony_species
+			#			#species_portrait = human
+			#		}
+			#		set_country_flag = "colony_home_empire"
+			#		country_event = { id = cbshing_origins_colony_start.3 days = -1 }
+			#	}
+			#}
+		#}
+		
+		# if no homeworld exists, create a new one
+		every_country = {
+			limit = {
+				is_cbshing_origins_colony_start_country = yes
+				NOT = { has_country_flag = country_homeworld_created }
+			}
+			#give a custom start screen
+			set_country_flag = custom_start_screen
+			
+			owner_species = { save_event_target_as = origins_colony_species }
+			
+			# check if human species to create a random "sol" origin
+			if = { 
+				limit = { 
+					has_country_flag = human_2
+					NOT = { has_country_flag = country_homeworld_created }
+					NOT = { has_global_flag = origins_sol_system_used }
+				}
+				set_country_flag = "origins_colony_sol"
+			}
+			# check if non-human species to create a random origin
+			if = { 
+				limit = { 
+					NOT = { has_country_flag = human_2 }
+					NOT = { has_country_flag = country_homeworld_created }
+				}
+				random_list = {
+					25 = { set_country_flag = "origins_colony_01" }
+					25 = { set_country_flag = "origins_colony_02" }
+					25 = { set_country_flag = "origins_colony_03" }
+					25 = { set_country_flag = "origins_colony_04" }
+				}
+			}
+			country_event = { id = cbshing_origins_colony_start.4 } 
+		}
+		
+		#nuclear start on action replacement
+		#fix the create homeworld event changing planet preference
+		every_country = {
+			limit = { 
+				is_cbshing_nuclear_civics_country = yes 
+			}
+			country_event = { id = cbshing_origins_nuclear_start.2 } 
+			country_event = { id = cbshing_origins_nuclear_start.3 }
+		}
+		
+		#nuclear start on action replacement
+		#adds a vault to the start planet
+		every_country = {
+			limit = { 
+				is_cbshing_nuclear_vault_country = yes 
+			}
+			random_owned_planet = {
+				limit = { is_capital = yes }
+				planet_event = { id = cbshing_origins_nuclear_start.6 }
+			}
+		}
+		
+		#eco shift on action replacement
+		#fix the create homeworld event changing planet preference
+		every_country = {
+			limit = { 
+				is_cbshing_different_climate_start_country = yes 
+			}
+			country_event = { id = cbshing_origins_non_ideal_start.1 } 
+		}
+		
+		#habitat on action replacement
+		#fix the create homeworld event changing planet preference
+		every_country = {
+			limit = { 
+				is_cbshing_habitat_country = yes 
+			}
+			country_event = { id = cbshing_origins_habitat_start.1 } 
+		}
+	}
+}
+
+# change all of the same species to have the same homeworld and traits
+country_event = {
+	id = cbshing_origins_colony_start.2
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		random_owned_pop = {
+			limit = { is_same_species = event_target:origins_colony_species }
+			create_species = {
+				is_mod = no
+				name = this
+				namelist = this
+				plural = this
+				class = this
+				portrait = this
+				traits = this
+				homeworld = prev.capital_scope
+			}
+			this = { save_event_target_as = origins_changing_colony_species }
+		}
+		every_owned_pop = {
+			limit = { is_same_species = event_target:origins_colony_species }
+			change_species = last_created
+		} 
+		every_owned_leader = {
+			limit = { is_same_species = event_target:origins_colony_species }
+			change_species = last_created
+		}
+		every_pool_leader = {
+			limit = { is_same_species = event_target:origins_colony_species }
+			change_species = last_created
+		}
+		if = {
+			limit = { owner_species = { is_same_species = event_target:origins_colony_species } }
+			change_dominant_species = { species = last_created }
+		}
+		
+		set_country_flag = "origins_home_pops_changed"
+		# this is for every colony with the same species 
+		every_country = {
+			limit = { 
+				is_cbshing_origins_colony_start_country = yes
+				is_same_species = event_target:origins_colony_species
+				NOT = { has_country_flag = country_homeworld_created }
+			}
+			set_country_flag = "country_homeworld_created" 
+			set_country_flag = "country_homeworld_same_species" 
+			every_owned_pop = {
+				limit = { is_same_species = event_target:origins_colony_species }
+				change_species = last_created
+			} 
+			every_owned_leader = {
+				limit = { is_same_species = event_target:origins_colony_species }
+				change_species = last_created
+			}
+			every_pool_leader = {
+				limit = { is_same_species = event_target:origins_colony_species }
+				change_species = last_created
+			}
+			change_dominant_species = { species = last_created }
+		}
+		# this is for every Colony of Earth
+		every_country = {
+			limit = { 
+				is_cbshing_addon_origins_colony_of_earth_country = yes 
+				NOT = { has_country_flag = country_homeworld_created }
+			}
+			make_earth_this_species_home = yes
+		}
+	}
+}
+
+# change all of the same portrait to have the same homeworld and traits
+country_event = {
+	id = cbshing_origins_colony_start.3
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		set_country_flag = "colony_home_empire"
+		save_event_target_as = origins_portrait_home_country
+		# this is for every colony with the same portrait 
+		every_country = {
+			limit = { 
+				is_cbshing_origins_colony_start_country = yes 
+				species_portrait = event_target:origins_colony_species
+				#species_portrait = human
+				NOT = { has_country_flag = country_homeworld_created }
+			}
+			set_country_flag = "country_homeworld_created" 
+			set_country_flag = "country_homeworld_portrait" 
+			random_owned_pop = {
+				limit = { is_same_species = owner }
+				species = {
+					set_species_homeworld = event_target:origins_portrait_home_country.capital_scope
+					set_species_identity = event_target:origins_portrait_home_country.species
+				}
+				this = { save_event_target_as = new_origins_colony_species }
+			}						
+		}
+	}
+}
+
+# create random spawn homeworld
+# only for non-AI countries - this is to limit having too many random empires.
+country_event = {
+	id = cbshing_origins_colony_start.4
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = { 
+				is_cbshing_origins_colony_start_country = yes 
+				is_ai = no
+				NOT = { has_country_flag = "country_homeworld_created" }
+			}
+			if = { limit = { has_country_flag = origins_colony_01 }
+				random_system = { spawn_system = { initializer = "origins_colony_homeworld_01" } }
+			}
+			if = { limit = { has_country_flag = origins_colony_02 }
+				random_system = { spawn_system = { initializer = "origins_colony_homeworld_02" } }
+			}
+			if = { limit = { has_country_flag = origins_colony_03 }
+				random_system = { spawn_system = { initializer = "origins_colony_homeworld_03" } }
+			}
+			if = { limit = { has_country_flag = origins_colony_04 }
+				random_system = { spawn_system = { initializer = "origins_colony_homeworld_04" } }
+			}
+			if = { 
+				limit = { 
+					has_country_flag = origins_colony_sol
+					NOT = { any_system = { has_star_flag = sol } }
+				}
+				random_system = { spawn_system = { initializer = "origins_colony_sol_system" } }
+			}
+			#need a random system to be the last system
+			random_system = { spawn_system = { initializer = "basic_init_01" } }
+			every_planet = {
+				limit = { 
+					#has_planet_flag = colony_homeworld
+					is_cbshing_colony_home_planet = yes 
+					NOT = { has_planet_flag = origins_colony_selected }
+				}
+				planet_event = { id = cbshing_origins_colony_start.5 } 
+			}
+		}
+	}
+}
+
+# create random spawn homeworld
+# only for non-AI countries - this is to limit having too many random empires.
+planet_event = {
+	id = cbshing_origins_colony_start.5
+	hide_window = yes
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				is_cbshing_colony_home_planet = yes 
+				NOT = { has_planet_flag = origins_colony_selected }
+			}
+			set_planet_flag = origins_colony_selected
+			
+			if = { 
+				limit = { 
+					any_country = { 
+						is_cbshing_origins_colony_start_country = yes 
+						NOT = { has_country_flag = country_homeworld_created } 
+					} 
+				}
+				random_country = {
+					limit = {
+						is_cbshing_origins_colony_start_country = yes 
+						NOT = { has_country_flag = country_homeworld_created }
+					}
+					owner_species = { save_event_target_as = origins_colony_species }
+					if = { limit = { has_country_flag = origins_colony_sol }
+						PREV = { set_planet_flag = origins_planet_earth }
+					}
+				}
+			}
+			if = { 
+				limit = { 
+					any_country = { 
+						is_cbshing_addon_origins_colony_of_earth_country = yes 
+						NOT = { has_country_flag = country_homeworld_created } 
+					} 
+				}
+				create_species = {
+					is_mod = no
+					name = "PRESCRIPTED_species_name_humans1"
+					namelist = "HUMAN1"
+					plural = "PRESCRIPTED_species_plural_humans1"
+					adjective = "PRESCRIPTED_species_adjective_humans1"
+					class = "HUM"
+					portrait = "human"
+					traits = {
+						trait = "trait_adaptive"
+						trait = "trait_nomadic"
+						trait = "trait_wasteful"
+					}
+					homeworld = this
+					effect = { save_event_target_as = origins_colony_species }
+				}
+			}
+			if = {
+				limit = { has_planet_flag = planet_earth }
+				create_country = {
+					name = "NAME_United_Nations_of_Earth"
+					authority = auth_democratic
+					civics = {
+						civic = civic_beacon_of_liberty
+						civic = civic_idealistic_foundation
+					}
+					species = event_target:origins_colony_species
+					name_list = "HUMAN1"
+					ethos = {
+						ethic = "ethic_xenophile"
+						ethic = "ethic_fanatic_egalitarian"
+					}
+					flag = {
+						icon = {
+							category = "human"
+							file = "flag_human_9.dds"
+						}
+						background = {
+							category = "backgrounds"
+							file = "00_solid.dds"
+						}
+						colors = {
+							"blue"
+							"black"
+							"null"
+							"null"
+						}
+					}
+					type = default
+					effect = { set_country_flag = origins_colony_home_human_empire }
+					effect = { set_country_flag = origins_colony_home_empire }
+					effect = { save_event_target_as = npc_origins_colony_home_empire }
+				}
+				else = {
+					create_country = {
+						name = random
+						authority = random
+						civics = random
+						species = event_target:origins_colony_species
+						name_list = event_target:origins_colony_species
+						ethos = random
+						type = default
+						flag = random
+						effect = { set_country_flag = origins_colony_home_empire }
+						effect = { save_event_target_as = npc_origins_colony_home_empire }
+					}
+				}
+			}
+			while = {
+				count = 8
+				random_tile = {
+					limit = {
+						has_blocker = no
+						has_grown_pop = no
+						has_growing_pop = no
+						has_building = yes
+					}
+					create_pop = {
+						species = event_target:origins_colony_species
+					}
+				}
+			}
+			set_owner = last_created_country
+			origins_change_planet_type_to_match_preference = yes
+			origins_add_vanilla_tile_blockers = yes
+			set_name = random
+			
+			last_created_country.capital_scope.solar_system = {
+				create_starbase = {
+					size = starbase_starport
+					module = shipyard
+					owner = event_target:npc_origins_colony_home_empire
+				}
+			}
+			
+			#science
+			create_fleet = {
+				effect = {
+					set_owner = last_created_country
+
+					create_ship = {
+						name = random
+						random_existing_design = science
+					}
+
+					set_fleet_stance = evasive				
+					set_location = last_created_country.capital_scope.star
+					
+					owner = {
+						create_leader = {
+							type = scientist
+							sub_type = survey
+							name = random
+							species = owner_main_species
+						}
+					}
+					set_leader = last_created_leader
+				}			
+			}
+				
+			#constructor
+			create_fleet = {
+				effect = {
+					set_owner = last_created_country
+					
+					create_ship = {
+						name = random
+						random_existing_design = constructor
+					}
+					
+					set_fleet_stance = evasive
+					set_location = last_created_country.capital_scope.star
+				}
+			}
+
+			#military
+			create_fleet = {
+				set_take_point = yes
+				effect = {
+					set_owner = last_created_country
+					
+					while = {
+						count = 3
+						create_ship = {
+							name = random
+							random_existing_design = corvette
+						}
+					}
+					
+					set_location = last_created_country.capital_scope.star
+				}
+			}
+			last_created_country = { add_minerals = 300 add_energy = 600 }
+			last_created_country = { set_country_flag = "colony_home_empire" }
+			last_created_country = { country_event = { id = cbshing_origins_colony_start.2 days = -1 } }
+			
+			every_tile = {
+				limit = {
+					has_blocker = no
+					has_pop = yes
+				}
+				kill_pop = yes
+				create_pop = {
+					species = last_created
+					ethos = random
+				}
+			}
+			set_owner = owner
+			owner = { change_dominant_species = { species = last_created } }
+		}
+	}
+}

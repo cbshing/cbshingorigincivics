@@ -1,0 +1,20 @@
+namespace = cbshing_origins_other_starts
+
+### Change home system to have special effects
+country_event = {
+	id = cbshing_origins_other_starts.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = { 
+		#
+	}
+
+	immediate = {		
+		# Give Technology
+		if = {
+			limit = { is_cbshing_ascension_theory_country = yes }
+			origins_give_ascension_theory_technology = yes
+		}
+	}
+}

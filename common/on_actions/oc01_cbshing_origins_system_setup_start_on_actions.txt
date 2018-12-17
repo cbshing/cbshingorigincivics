@@ -1,6 +1,0 @@
-# Triggers when the game starts
-on_game_start_country = {
-	events = {
-		cbshing_origins_system_setup_start.1 # for system generated objects, like no hyperlanes, wormholes, gateways, etc
-	}
-}

@@ -6,6 +6,6 @@ tags={
 	"Gameplay"
 	"Civics"
 }
-picture="icon_origincivics.jpg"
+picture="icon_origincivics_new.jpg"
 remote_file_id="1294720127"
-supported_version="2.0.0"
+supported_version="2.2.*"

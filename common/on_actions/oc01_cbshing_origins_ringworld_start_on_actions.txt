@@ -1,6 +1,0 @@
-# Triggers when the game starts
-on_game_start_country = {
-	events = {
-		cbshing_origins_ringworld_start.1 # change species to have ringworld preference, spawn ringworld and create new pops there.
-	}
-}

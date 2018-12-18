@@ -4,16 +4,17 @@ namespace = origins_civics_planet_quest_events
 ### Homeworld Planet Quest Events
 
 ### Planet_Restoration
+# Events 100 - 102
 # Climate Shift Planet Restoration
 # Nuclear Vault Planet Restoration
 # Below checks if the homeworld is in need of being restored
 planet_event = {
-	id = origins_civics_planet_quest_events.1
-	title = "origins_civics_planet_quest_events.1.name"
+	id = origins_civics_planet_quest_events.100
+	title = "origins_civics_planet_quest_events.100.name"
 	picture = GFX_evt_news_room
 	show_sound = event_celebration
 	desc = {
-		text = "origins_civics_planet_quest_events.1.desc.normal"
+		text = "origins_civics_planet_quest_events.100.desc.normal"
 		trigger = { 
 			NOR = {
 				is_planet_class = pc_city 
@@ -24,21 +25,14 @@ planet_event = {
 		}
 	}
 	desc = {
-		text = "origins_civics_planet_quest_events.1.desc.city"
-		trigger = { 
-			is_planet_class = pc_city 
-			owner = { is_regular_empire = yes }
-		}
-	}
-	desc = {
-		text = "origins_civics_planet_quest_events.1.desc.gaia"
+		text = "origins_civics_planet_quest_events.100.desc.gaia"
 		trigger = { 
 			is_planet_class = pc_gaia 
 			owner = { is_regular_empire = yes }
 		}
 	}
 	desc = {
-		text = "origins_civics_planet_quest_events.1.desc.hive"
+		text = "origins_civics_planet_quest_events.100.desc.hive"
 		trigger = { 
 			owner = { has_authority = auth_hive_mind }
 		}
@@ -61,13 +55,11 @@ planet_event = {
 		}
 		OR = {
 			is_planet_class = pc_gaia # this is added if someone has terraformed their homeworld to gaia instead.
-			is_planet_class = pc_city # this is added if someone has terraformed their homeworld to city instead.
+			#is_planet_class = pc_city # this is added if someone has terraformed their homeworld to city instead.
 			is_planet_class = pc_hive # this is added if someone has terraformed their homeworld to hive instead.
 			is_ideal_planet_class = { who = owner status = yes }
 		}
 	}
-
-	#mean_time_to_happen  { days = 2 } #delayed by 2 days so planet terraformed pop up does not overlap
 	
 	is_triggered_only = yes
 	
@@ -83,7 +75,7 @@ planet_event = {
 	}
 	
 	option = {
-		name = origins_civics_planet_quest_events.1.a.regular
+		name = origins_civics_planet_quest_events.100.a.regular
 		trigger = {
 			owner = { is_regular_empire = yes }
 		}
@@ -129,7 +121,7 @@ planet_event = {
 # Below checks if the event chain is valid for the player for Tomb World
 # Triggers 9000 days (25 years) after player researches Climate Restoration tech and player has not terraformed their home world
 planet_event = {
-	id = origins_civics_planet_quest_events.2
+	id = origins_civics_planet_quest_events.101
 	hide_window = yes
 	
 	location = ROOT
@@ -143,80 +135,47 @@ planet_event = {
 		is_occupied_flag = no #don't want your homeworld occupied to start event chain
 		num_pops > 0 #must have pops living on homeworld to start event chain
 		owner = { has_country_flag = "origins_restore_homeworld_needed" }
-		owner = { has_technology = tech_climate_restoration }
-		is_planet_class = pc_nuked
+		OR = {
+			AND = { 
+				owner = { has_technology = tech_climate_restoration	} 
+				is_planet_class = pc_nuked 
+			}
+			AND = { 
+				owner = { has_technology = tech_terrestrial_sculpting }
+				NOT = { is_planet_class = pc_nuked } 
+			}
+		}
 		NOT ={ 
 			owner = { has_country_flag = restore_homeworld_country_true }
 			owner = { has_country_flag = restore_homeworld_country_events_chain_initiated }
 		}
 		NOR = {
 			is_planet_class = pc_gaia # this is added if someone has terraformed their homeworld to gaia instead.
-			is_planet_class = pc_city # this is added if someone has terraformed their homeworld to city instead.
 			is_planet_class = pc_hive # this is added if someone has terraformed their homeworld to hive instead.
 			is_ideal_planet_class = { who = owner status = yes }
 		}
 	}
 	mean_time_to_happen  { years = 25 }
-	#mean_time_to_happen  { years = 1 } #only for debugging
 	
 	immediate = {
-		#save_event_target_as = origins_civics_planet_quest_events_homeworld #used to make homeworld POI
-		owner = { country_event = { id = origins_civics_planet_quest_events.4 } }
-	}
-}
-
-# Below checks if the event chain is valid for the player for Climate Shift
-# Triggers 9000 days (25 years) after player researches Terrestrial Sculpting tech and player has not terraformed their home world
-planet_event = {
-	id = origins_civics_planet_quest_events.3
-	hide_window = yes
-	
-	location = ROOT
-	
-	trigger = {
-		has_owner = yes
-		original_owner = yes
-		is_homeworld = yes
-		owner = { is_ai = no }
-		has_ground_combat = no #don't want you to be at war to start event chain
-		is_occupied_flag = no #don't want your homeworld occupied to start event chain
-		num_pops > 0 #must have pops living on homeworld to start event chain
-		owner = { has_country_flag = "origins_restore_homeworld_needed" }
-		owner = { has_technology = tech_terrestrial_sculpting }
-		NOT = { is_planet_class = pc_nuked }
-		NOT ={ 
-			owner = { has_country_flag = restore_homeworld_country_true }
-			owner = { has_country_flag = restore_homeworld_country_events_chain_initiated }
-		}
-		NOR = {
-			is_planet_class = pc_gaia # this is added if someone has terraformed their homeworld to gaia instead.
-			is_planet_class = pc_city # this is added if someone has terraformed their homeworld to city instead.
-			is_planet_class = pc_hive # this is added if someone has terraformed their homeworld to hive instead.
-			is_ideal_planet_class = { who = owner status = yes }
-		}
-	}
-	#mean_time_to_happen  { years = 25 }
-	mean_time_to_happen  { days = 10 } #only for debugging
-	
-	immediate = {
-		owner = { country_event = { id = origins_civics_planet_quest_events.4 } }
+		owner = { country_event = { id = origins_civics_planet_quest_events.102 } }
 	}
 }
 
 # Below initiates the home world restoration event chain
 country_event = {
-	id = origins_civics_planet_quest_events.4
-	title = "origins_civics_planet_quest_events.4.name"
+	id = origins_civics_planet_quest_events.102
+	title = "origins_civics_planet_quest_events.102.name"
 	picture = GFX_evt_dead_city
 	show_sound = event_ghost_town
 	desc = {
-		text = "origins_civics_planet_quest_events.4.desc.nuked"
+		text = "origins_civics_planet_quest_events.102.desc.nuked"
 		trigger = { 
 			owner = { oc_has_restore_homeworld_nuked_quest_hidden_civics = yes }
 		}
 	}
 	desc = {
-		text = "origins_civics_planet_quest_events.4.desc.norm"
+		text = "origins_civics_planet_quest_events.102.desc.norm"
 		trigger = { 
 			owner = { oc_has_restore_homeworld_climate_shift_quest_hidden_civics = yes }
 		}
@@ -231,17 +190,22 @@ country_event = {
 	}
 	
 	option = {
-		name = "origins_civics_planet_quest_events.4.a"
+		name = "origins_civics_planet_quest_events.102.a"
 		begin_event_chain = {
 			event_chain = "oc_planet_quest_restore_homeworld_chain"
 			target = ROOT
 		}
-		create_point_of_interest = {
-			id = oc_restore_home_event_chain_poi.1
-			name = "oc_restore_home_event_chain_poi"
-			desc = "oc_restore_home_event_chain_poi_desc"
-			event_chain = "oc_planet_quest_restore_homeworld_chain"
-			location = home_planet
+		random_owned_planet = {
+			limit = { is_capital = yes }
+			owner = {
+				create_point_of_interest = {
+					id = oc_restore_home_event_chain_poi.1
+					name = "oc_restore_home_event_chain_poi"
+					desc = "oc_restore_home_event_chain_poi_desc"
+					event_chain = "oc_planet_quest_restore_homeworld_chain"
+					location = prev
+				}
+			}
 		}
 	}
 }

@@ -6,22 +6,6 @@ namespace = origins_civics_empire_setup
 # Handles setup of each civic in various subsections
 # Handles by galaxy changes, cluster changes, system changes, colony setup, pop setup, planet setup, technology setup, etc
 
-# Buildings & Secondary Pop Creation
-planet_event = {
-	id = origins_civics_empire_setup.0
-	hide_window = yes
-	is_triggered_only = yes
-	
-	trigger = {
-		owner = { oc_requires_secondary_pops_setup = yes }
-	}
-	
-	immediate = {
-		
-	}
-}
-
-
 # Handles setup of civics that require modifications of the species
 # -Requires species have a new homeworld type
 # ->Voidborne
@@ -233,11 +217,13 @@ planet_event = {
 	
 	immediate = {
 		#Special handling for habitats. Habitats are on a different planet, so will need to do a different setup
-		if = { limit = { oc_requires_reset_capital_habitat_setup = yes } 
-			random_owned_planet = {
-				limit = { is_capital = yes }
-				#reset_start_buildings_and_blockers_habitat = yes
-				#add_pops_on_planet = yes
+		if = { limit = { owner = { oc_requires_reset_capital_habitat_setup = yes } }
+			owner = {
+				random_owned_planet = {
+					limit = { is_capital = yes is_planet_class = pc_habitat }
+					#reset_start_buildings_and_blockers_habitat = yes
+					#add_pops_on_planet = yes
+				}
 			}
 		}
 	
@@ -358,17 +344,18 @@ planet_event = {
 				change_to_pc_antarctic = yes
 			}
 			
-
 			#Change to a random uninhabitable type
 			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_random_uninhabitable = yes } }
-				random_owned_planet = {
-					limit = { has_planet_flag = oc_old_homeworld }
-					remove_planet_flag = oc_old_homeworld
-					if = { limit = { owner = { has_country_flag = aavardwerk_empire } } # special setting for aavardwerk empire
-						change_pc = pc_shattered
-					}
-					else = {
-						change_to_pc_random_uninhabitable = yes
+				owner = {
+					random_owned_planet = {
+						limit = { has_planet_flag = oc_old_homeworld }
+						remove_planet_flag = oc_old_homeworld
+						if = { limit = { owner = { has_country_flag = aavardwerk_empire } } # special setting for aavardwerk empire
+							change_pc = pc_shattered
+						}
+						else = {
+							change_to_pc_random_uninhabitable = yes
+						}
 					}
 				}
 			}
@@ -385,7 +372,7 @@ planet_event = {
 		}
 		
 		#Add special/unique deposits
-		if = { limit = { owner = { oc_requires_special_deposit_setup = yes } 
+		if = { limit = { owner = { oc_requires_special_deposit_setup = yes } }
 			# Add special Vault Complex Building
 			if = { limit = { owner = { oc_requires_vault_building_setup = yes } }
 				add_vault_complex_deposit = yes
@@ -440,9 +427,11 @@ planet_event = {
 		
 		# Destroy every colony except capital
 		if = { limit = { owner = { oc_requires_lonely_capital = yes } }
-			every_owned_planet = {
-				limit = { is_capital = no }
-				cleanse_planet = yes
+			owner = { 
+				every_owned_planet = {
+					limit = { is_capital = no }
+					cleanse_planet = yes
+				}
 			}
 		}
 	}

@@ -3,6 +3,6 @@
 # From = Terraformer
 on_terraforming_complete = {
 	events = {
-		origins_civics_planet_quest_events.1
+		origins_civics_planet_quest_events.100
 	}
 }

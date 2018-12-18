@@ -965,6 +965,14 @@ oc_requires_ascension_theory_tech = {
 }
 
 # scope: country 
+oc_requires_hydroponics_technology = {
+	OR = {
+		oc_requires_vault_building_setup = yes
+		oc_requires_habitat_preference = yes
+	}
+}
+
+# scope: country 
 oc_requires_megastructure_tech = {
 	OR = {
 		oc_requires_megastruture_dyson_sphere = yes

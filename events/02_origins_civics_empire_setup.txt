@@ -17,31 +17,7 @@ planet_event = {
 	}
 	
 	immediate = {
-		#Add special/unique buildings
-		if = { limit = { owner = { oc_requires_special_building_setup = yes } }
-			# Add setup for Mechanist Start
-			if = { limit = { owner = {  oc_requires_robot_factory_building_setup = yes } }
-				if = {
-					limit = { owner = { is_megacorp = yes } }
-					remove_building = building_commercial_zone	
-					#remove_district = district_city
-					add_district = district_generator
-				}
-				add_building = building_robot_assembly_plant		
-				add_district = district_generator
-			}
-			if = { limit = { owner = {  oc_requires_vault_building_setup = yes } }
-				if = {
-					limit = { owner = { is_megacorp = yes } }
-					remove_district = district_city
-				}
-				else = {
-					remove_district = district_generator
-				}
-				add_district = district_farming
-			}
-		}
-		oc_generate_start_pops = yes
+		
 	}
 }
 
@@ -225,7 +201,7 @@ country_event = {
 	}
 }
 
-# Planet
+# Capital Planet
 # -Requires Homeworld Class Modification
 # ->Climate Shift
 # ->Nuclear Vault
@@ -238,14 +214,21 @@ country_event = {
 # ->Hive Empire
 # ->Machine Empire
 # -Adds Special Buildings and Deposits to Planets
-# -Setup Colony Homeworld
-country_event = {
+# ->Nuclear Vault
+# -Adds Primary and Secondary Pops to Planet
+# ->Syncretic Evolution
+# ->Mechanist
+# ->Codominant
+planet_event = {
 	id = origins_civics_empire_setup.6
 	hide_window = yes
 	is_triggered_only = yes
 	
 	trigger = {
-		oc_requires_planet_setup = yes
+		OR = {
+			owner = { oc_requires_planet_setup = yes }
+			owner = { oc_requires_secondary_pops_setup = yes }
+		}
 	}
 	
 	immediate = {
@@ -260,233 +243,128 @@ country_event = {
 	
 	
 		# Change homeworld to new planet size. Can add other sizes
-		if = { limit = { oc_requires_homeworld_size_change = yes }
+		if = { limit = { owner = { oc_requires_homeworld_size_change = yes } }
 			if = { limit = { oc_requires_homeworld_size_change_to_25 = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					set_planet_size = 25
-				}
+				set_planet_size = 25
 			}
-			if = { limit = { oc_requires_homeworld_size_change_to_12 = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					set_planet_size = 12
-				}
+			if = { limit = { owner = { oc_requires_homeworld_size_change_to_12 = yes } }
+				set_planet_size = 12
 			}
-			if = { limit = { oc_requires_homeworld_size_change_to_8 = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					set_planet_size = 8
-				}
+			if = { limit = { owner = { oc_requires_homeworld_size_change_to_8 = yes } }
+				set_planet_size = 8
 			}
-			if = { limit = { oc_requires_homeworld_size_change_to_6 = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					set_planet_size = 6
-				}
+			if = { limit = { owner = { oc_requires_homeworld_size_change_to_6 = yes } }
+				set_planet_size = 6
 			}
-			if = { limit = { oc_requires_homeworld_size_change_to_4 = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					set_planet_size = 4
-				}
+			if = { limit = { owner = { oc_requires_homeworld_size_change_to_4 = yes } }
+				set_planet_size = 4
 			}
 		}		
 		
 		# Change homeworld to new planet class
-		if = { limit = { oc_requires_homeworld_class_to_change = yes }
+		if = { limit = { owner = { oc_requires_homeworld_class_to_change = yes } }
 			# Change homeworld to a random planet class
-			if = { limit = { oc_requires_homeworld_class_to_change_to_random_habitable = yes }			
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_random_habitable = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_random_habitable = yes } }			
+				change_to_pc_random_habitable = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_random_habitable_tier1 = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_random_habitable_tier1 = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_random_habitable_tier1 = yes } }
+				change_to_pc_random_habitable_tier1 = yes
 			}
 			
-			if = { limit = { oc_requires_homeworld_class_to_change_to_random_habitable_tier2 = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_random_habitable_tier2 = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_random_habitable_tier2 = yes } }
+				change_to_pc_random_habitable_tier2 = yes
 			}
 			# Change to a special planet type
-			if = { limit = { oc_requires_homeworld_class_to_change_to_nuked = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_nuked = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_nuked = yes } }
+				change_to_pc_nuked = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_gaia = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_gaia = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_gaia = yes } }
+				change_to_pc_gaia = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_machine = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_machine = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_machine = yes } }
+				change_to_pc_machine = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_hive = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_hive = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_hive = yes } }
+				change_to_pc_hive = yes
 			}			
-			if = { limit = { oc_requires_homeworld_class_to_change_to_city = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_city = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_city = yes } }
+				change_to_pc_city = yes
 			}
 			# Change for normal planet types. Probably unused, but give as scripting choices anyway
-			if = { limit = { oc_requires_homeworld_class_to_change_to_arid = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_arid = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_arid = yes } }
+				change_to_pc_arid = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_desert = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_desert = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_desert = yes } }
+				change_to_pc_desert = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_savannah = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_savannah = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_savannah = yes } }
+				change_to_pc_savannah = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_sandsea = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_sandsea = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_sandsea = yes } }
+				change_to_pc_sandsea = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_mesa = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_mesa = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_mesa = yes } }
+				change_to_pc_mesa = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_oasis = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_oasis = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_oasis = yes } }
+				change_to_pc_oasis = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_geocrystalline = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_geocrystalline = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_geocrystalline = yes } }
+				change_to_pc_geocrystalline = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_continental = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_continental = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_continental = yes } }
+				change_to_pc_continental = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_ocean = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_ocean = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_ocean = yes } }
+				change_to_pc_ocean = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_tropical = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_tropical = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_tropical = yes } }
+				change_to_pc_tropical = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_mangrove = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_mangrove = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_mangrove = yes } }
+				change_to_pc_mangrove = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_hajungle = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_hajungle = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_hajungle = yes } }
+				change_to_pc_hajungle = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_desertislands = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_desertislands = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_desertislands = yes } }
+				change_to_pc_desertislands = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_lush = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_lush = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_lush = yes } }
+				change_to_pc_lush = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_marginal = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_marginal = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_marginal = yes } }
+				change_to_pc_marginal = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_tundra = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_tundra = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_tundra = yes } }
+				change_to_pc_tundra = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_alpine = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_alpine = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_alpine = yes } }
+				change_to_pc_alpine = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_arctic = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_arctic = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_arctic = yes } }
+				change_to_pc_arctic = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_frozen_desert = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_frozen_desert = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_frozen_desert = yes } }
+				change_to_pc_frozen_desert = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_steppe = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_steppe = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_steppe = yes } }
+				change_to_pc_steppe = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_hadesert = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_pc_hadesert = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_hadesert = yes } }
+				change_to_pc_pc_hadesert = yes
 			}
-			if = { limit = { oc_requires_homeworld_class_to_change_to_antarctic = yes }
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					change_to_pc_antarctic = yes
-				}
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_antarctic = yes } }
+				change_to_pc_antarctic = yes
 			}
 			
 
 			#Change to a random uninhabitable type
-			if = { limit = { oc_requires_homeworld_class_to_change_to_random_uninhabitable = yes }
+			if = { limit = { owner = { oc_requires_homeworld_class_to_change_to_random_uninhabitable = yes } }
 				random_owned_planet = {
 					limit = { has_planet_flag = oc_old_homeworld }
 					remove_planet_flag = oc_old_homeworld
-					if = { limit = { from { has_country_flag = aavardwerk_empire } } # special setting for aavardwerk empire
+					if = { limit = { owner = { has_country_flag = aavardwerk_empire } } # special setting for aavardwerk empire
 						change_pc = pc_shattered
 					}
 					else = {
@@ -497,43 +375,50 @@ country_event = {
 			
 		}	
 		#Reset deposits on normal planets
-		if = { limit = { oc_requires_reset_capital_setup = yes } 
-			random_owned_planet = {
-				limit = { is_capital = yes }
-				generate_start_deposits_and_blockers = yes
-			}
+		if = { limit = { owner = { oc_requires_reset_capital_setup = yes } }
+			generate_start_deposits_and_blockers = yes
 		}
 		
 		#Reset deposits on special planets (Gaia, Tomb, Etc)
-		if = { limit = { oc_requires_reset_capital_special_setup = yes } 
-			random_owned_planet = {
-				limit = { is_capital = yes }
-				oc_generate_special_planet_start_deposits_and_blockers = yes
-			}
+		if = { limit = { owner = { oc_requires_reset_capital_special_setup = yes } }
+			oc_generate_special_planet_start_deposits_and_blockers = yes
 		}
 		
 		#Add special/unique deposits
-		if = { limit = { oc_requires_special_deposit_setup = yes } 
+		if = { limit = { owner = { oc_requires_special_deposit_setup = yes } 
 			# Add special Vault Complex Building
-			if = { limit = { oc_requires_vault_building_setup = yes } 
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					add_vault_complex_deposit = yes
+			if = { limit = { owner = { oc_requires_vault_building_setup = yes } }
+				add_vault_complex_deposit = yes
+			}
+		}
+		
+		#Add special/unique buildings
+		if = { limit = { owner = { oc_requires_special_building_setup = yes } }
+			# Add setup for Mechanist Start
+			if = { limit = { owner = {  oc_requires_robot_factory_building_setup = yes } }
+				if = {
+					limit = { owner = { is_megacorp = yes } }
+					remove_building = building_commercial_zone	
+					#remove_district = district_city
+					add_district = district_generator
 				}
+				add_building = building_robot_assembly_plant		
+				add_district = district_generator
+			}
+			if = { limit = { owner = { oc_requires_vault_building_setup = yes } }
+				remove_building = building_research_lab_1 
+				add_building = building_hydroponics_farm 
 			}
 		}
 		
 		# Add planet modifiers
-		if = { limit = { oc_requires_capital_modifiers = yes } 
+		if = { limit = { owner = { oc_requires_capital_modifiers = yes } 
 			# Create orbital debris & modifier
-			if = { limit = { oc_requires_capital_orbital_debris_setup = yes } 
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					#add_orbital_debris_modifier = yes
+			if = { limit = { owner = { oc_requires_capital_orbital_debris_setup = yes } }
+				#add_orbital_debris_modifier = yes
 					#spawn_medium_orbital_debris = yes
-				}
 			}
-			if = { limit = { oc_requires_secondary_planet_orbital_debris_setup = yes } 
+			if = { limit = { owner = { oc_requires_secondary_planet_orbital_debris_setup = yes } }
 				random_owned_planet = {
 					limit = { has_planet_flag = oc_second_homeworld_planet }
 					#add_orbital_debris_modifier = yes
@@ -541,23 +426,20 @@ country_event = {
 				}
 			}
 			# Add Titan modifier
-			if = { limit = { oc_requires_capital_titanic_life_modifier_setup = yes } 
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					#add_titan_modifier = yes
-				}
+			if = { limit = { owner = { oc_requires_capital_titanic_life_modifier_setup = yes } }
+				#add_titan_modifier = yes
 			}
 			# Add Ecological Disaster modifier
-			if = { limit = { oc_requires_capital_ecological_disaster_modifier_setup = yes } 
-				random_owned_planet = {
-					limit = { is_capital = yes }
-					#add_ecological_disaster_modifier = yes
-				}
+			if = { limit = { owner = { oc_requires_capital_ecological_disaster_modifier_setup = yes } }
+				#add_ecological_disaster_modifier = yes
 			}
 		}
 		
+		#Create pops
+		oc_generate_start_pops = yes
+		
 		# Destroy every colony except capital
-		if = { limit = { oc_requires_lonely_capital = yes } 
+		if = { limit = { owner = { oc_requires_lonely_capital = yes } }
 			every_owned_planet = {
 				limit = { is_capital = no }
 				cleanse_planet = yes
@@ -623,6 +505,14 @@ country_event = {
 				oc_has_synthetic_species_trait = yes
 			} 
 			allow_country_to_make_synths = yes
+		}
+		
+		# starts with robot pops
+		if = { 
+			limit = { 
+				oc_requires_hydroponics_technology = yes
+			} 
+			give_hydroponics_technology = yes
 		}
 		
 		# can build gateways

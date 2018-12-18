@@ -329,6 +329,17 @@ oc_requires_reset_capital_habitat_setup = {
 	}
 }
 
+# Used for fixing bug with civics homeworld = code resetting all jobs on planet
+# scope: country 
+oc_requires_reset_buildings_and_districts = {
+	OR = {
+		has_oc_hive_life_seeded_civic = yes
+		has_oc_corp_life_seeded_civic = yes
+		oc_is_nuked_preference_country = yes
+		has_oc_robo_nuked_start_civic = yes
+	}
+}
+
 # scope: country 
 oc_requires_special_deposit_setup = {
 	OR = {

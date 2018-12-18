@@ -112,7 +112,7 @@ civic_cbshing_nuclear_vault = {
 
 civic_cbshing_nuclear_mutation = {
 	playable = { host_has_dlc = "Apocalypse" }
-	#homeworld = pc_nuked # Changes homeworld class regardless of what is picked for empire
+	homeworld = pc_nuked # Changes homeworld class regardless of what is picked for empire
 	modification = no
 	icon = "gfx/interface/icons/governments/civics/civic_oc_nuclear_mutation.dds"
 	potential = {
